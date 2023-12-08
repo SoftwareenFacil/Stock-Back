@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Stock_Back.DAL;
 
 namespace Stock_Back.Controllers
 {
@@ -26,8 +25,7 @@ namespace Stock_Back.Controllers
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)],
-                Person = new Person("hello world")
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]                
             })
             .ToArray();
         }

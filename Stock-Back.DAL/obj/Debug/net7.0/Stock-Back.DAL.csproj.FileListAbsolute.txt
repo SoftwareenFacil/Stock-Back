@@ -9,3 +9,6 @@ D:\Documentos\.NET\Stock-Back\Stock-Back.DAL\obj\Debug\net7.0\Stock-Back.DAL.dll
 D:\Documentos\.NET\Stock-Back\Stock-Back.DAL\obj\Debug\net7.0\refint\Stock-Back.DAL.dll
 D:\Documentos\.NET\Stock-Back\Stock-Back.DAL\obj\Debug\net7.0\Stock-Back.DAL.pdb
 D:\Documentos\.NET\Stock-Back\Stock-Back.DAL\obj\Debug\net7.0\ref\Stock-Back.DAL.dll
+D:\Documentos\.NET\Stock-Back\Stock-Back.DAL\bin\Debug\net7.0\Stock-Back.DAL.runtimeconfig.json
+D:\Documentos\.NET\Stock-Back\Stock-Back.DAL\obj\Debug\net7.0\Stock-Back.DAL.csproj.AssemblyReference.cache
+D:\Documentos\.NET\Stock-Back\Stock-Back.DAL\obj\Debug\net7.0\Stock-Back.DAL.genruntimeconfig.cache
