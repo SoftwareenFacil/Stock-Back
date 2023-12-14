@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Stock_Back.Models;
+using Stock_Back.DAL;
+using System;
 
 namespace Stock_Back
 {
@@ -10,8 +12,10 @@ namespace Stock_Back
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            var postgreSQLConnectionConfiguration = new PostgreSQLConfiguration()
             builder.Services.AddControllers();
+            builder.Services.AddDbContext<Context>(options =>
+                options.UseNpgsql(builder.Configuration.GetValue<string>("PostgreSQLClient")));
             builder.Services.AddDbContext<Context>(opt =>
                 opt.UseInMemoryDatabase("PersonList"));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -116,7 +116,7 @@ namespace Stock_Back.Controllers
         private static PersonDTO ToDTO(Person persona) =>
            new PersonDTO
            {
-               Id = persona.Id,
+               Id = persona.Id, 
                Name = persona.Name,
                Age = persona.Age
            };
