@@ -1,33 +1,105 @@
-﻿using Stock_Back.DAL.Controller.Interfaces;
-
+﻿using Microsoft.EntityFrameworkCore;
+using Stock_Back.DAL.Data;
+using Stock_Back.DAL.Interfaces;
+using Stock_Back.DAL.Models;
 
 namespace Stock_Back.DAL.Controller
 {
     public class UserController : IUserController
     {
-        public Task<bool> DeleteUser(int id)
+        private AppDbContext _context;
+        public UserController(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<IEnumerable<User>> GetAllUsers()
+        //GET
+        public async Task<List<User>> GetAllUsers()
         {
-            throw new NotImplementedException();
+            List<User> users = new List<User>();
+            var dataList = await _context.Users.ToListAsync();
+            dataList.ForEach(row => users.Add(new User()
+            {
+                Id = row.Id,
+                Name = row.Name,
+                Email = row.Email,
+                Password = row.Password,
+                Created = row.Created,
+                Updated = row.Updated
+            }));
+            return users;
         }
 
-        public Task<User> GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
-            throw new NotImplementedException();
+            User? response = new User();
+            response = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
+            if (response != null)
+            {
+                return new User()
+                {
+                    Id = response.Id,
+                    Name = response.Name,
+                    Email = response.Email,
+                    Password = response.Password,
+                    Created = DateTime.Now.ToUniversalTime(),
+                    Updated = DateTime.Now.ToUniversalTime()
+                };
+            }
+
+            return response;
         }
 
-        public Task<bool> InsertUser(User user)
+        //POST/PUT/PATCH
+        public async Task<bool> InsertUser(User user)
         {
-            throw new NotImplementedException();
+            if (!(user.Id > 0)) 
+            {
+                User response = new User();
+                response.Name = user.Name;
+                response.Email = user.Email;
+                response.Password = user.Password; 
+                response.Created = DateTime.Now.ToUniversalTime();
+                response.Updated= DateTime.Now.ToUniversalTime();
+                await _context.Users.AddAsync(response);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> UpdateUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            User? response = new User();
+            if (user.Id > 0)
+            {
+                
+                response = await _context.Users.Where(userAux => userAux.Id.Equals(user.Id)).FirstOrDefaultAsync();
+                if (response != null)
+                {
+                    response.Name = user.Name;
+                    response.Email = user.Email;
+                    response.Password = user.Password;
+                    response.Updated = DateTime.Now.ToUniversalTime();
+                    await _context.SaveChangesAsync();
+                    
+                }
+                
+            }
+            return response;
+        }
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            User user = new User();
+            user = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
+            if(user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }
