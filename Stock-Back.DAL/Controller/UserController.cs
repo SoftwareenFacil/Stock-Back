@@ -53,7 +53,7 @@ namespace Stock_Back.DAL.Controller
         //POST/PUT/PATCH
         public async Task<bool> InsertUser(User user)
         {
-            if (!(user.Id > 0)) 
+            if (user.Id > 0) 
             {
                 User response = new User();
                 response.Name = user.Name;
