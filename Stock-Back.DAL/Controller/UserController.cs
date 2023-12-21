@@ -30,7 +30,7 @@ namespace Stock_Back.DAL.Controller
             return users;
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<User?> GetUserById(int id)
         {
             User? response = new User();
             response = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
@@ -68,7 +68,7 @@ namespace Stock_Back.DAL.Controller
             return false;
         }
 
-        public async Task<User> UpdateUser(User user)
+        public async Task<User?> UpdateUser(User user)
         {
             User? response = new User();
             if (user.Id > 0)
@@ -91,7 +91,7 @@ namespace Stock_Back.DAL.Controller
 
         public async Task<bool> DeleteUser(int id)
         {
-            User user = new User();
+            User? user = new User();
             user = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
             if(user != null)
             {

@@ -48,7 +48,7 @@ namespace Stock_Back.Controllers
             ResponseType type = ResponseType.Success;
             try
             {
-                User data = await _userController.GetUserById(id);
+                User? data = await _userController.GetUserById(id);
                 if (data == null)
                 {
                     type = ResponseType.NotFound;
