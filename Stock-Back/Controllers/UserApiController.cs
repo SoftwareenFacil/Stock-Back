@@ -24,19 +24,20 @@ namespace Stock_Back.Controllers
         [Route("api/[controller]/GetUsers")]
         public async Task<IActionResult> Get()
         {
-            ResponseType type = ResponseType.Success;
             try
             {
-                IEnumerable<User> data = await _userController.GetAllUsers();
-                if (!data.Any())
+                ResponseType type = ResponseType.Success;
+                var users = await _userController.GetAllUsers();
+                if (!users.Any())
                 {
                     type = ResponseType.NotFound;
+                    return NotFound(ResponseHandler.GetAppResponse(type,users));
                 }
-                return Ok(ResponseHandler.GetAppResponse(type, data));
+                return Ok(ResponseHandler.GetAppResponse(type,users));
             }
-            catch (Exception ex)
+            catch (Exception ex)    
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
 
@@ -45,19 +46,20 @@ namespace Stock_Back.Controllers
         [Route("api/[controller]/GetUserById/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            ResponseType type = ResponseType.Success;
             try
             {
-                User? data = await _userController.GetUserById(id);
-                if (data == null)
+                ResponseType type = ResponseType.Success;
+                var user = await _userController.GetUserById(id);
+                if (user == null)
                 {
                     type = ResponseType.NotFound;
+                    return NotFound(ResponseHandler.GetAppResponse(type, user));
                 }
-                return Ok(ResponseHandler.GetAppResponse(type, data));
+                return Ok(ResponseHandler.GetAppResponse(type,user));
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
 
@@ -69,29 +71,45 @@ namespace Stock_Back.Controllers
             try
             {
                 ResponseType type = ResponseType.Success;
-                await _userController.InsertUser(user);
-                return Ok(ResponseHandler.GetAppResponse(type, user));
+                if (await _userController.UserEmailExist(user.Email))
+                {
+                    type = ResponseType.Failure;
+                    return BadRequest(ResponseHandler.GetAppResponse(type, "This email already exists in our records"));
+                }
+                var inserted = await _userController.InsertUser(user);
+                if (inserted == null)
+                {
+                    type = ResponseType.Failure;
+                    return BadRequest(ResponseHandler.GetAppResponse(type, "The user could not be inserted, please make sure you upload the correct format (name, email and password)."));
+                }
+                return StatusCode(201,ResponseHandler.GetAppResponse(type,inserted));
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
 
         // PUT api/<UserApiController>/5
         [HttpPut]
         [Route("api/[controller]/UpdateUser")]
-        public async Task<IActionResult> Put([FromBody] User user)
+        public async Task<IActionResult> Put([FromBody] User userEdited)
         {
             try
             {
                 ResponseType type = ResponseType.Success;
-                var response = await _userController.UpdateUser(user);
-                return Ok(ResponseHandler.GetAppResponse(type, response));
+                var user = await _userController.GetUserById(userEdited.Id);
+                if (user == null)
+                {
+                    type= ResponseType.NotFound;
+                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
+                }
+                var updatedUser = await _userController.UpdateUser(userEdited);
+                return Ok(ResponseHandler.GetAppResponse(type, updatedUser));
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
 
@@ -102,13 +120,18 @@ namespace Stock_Back.Controllers
         {
             try
             {
-                ResponseType type = ResponseType.Success;
-                await _userController.DeleteUser(id);
-                return Ok(ResponseHandler.GetAppResponse(type, "Delete Successfully"));
+                ResponseType type= ResponseType.Success;
+                var deleted = await _userController.DeleteUser(id);
+                if (!deleted)
+                {
+                    type = ResponseType.NotFound;
+                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with ID {id} not found."));
+                }
+                return Ok(ResponseHandler.GetAppResponse(type, $"User with ID {id} deleted successfully."));
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
     }

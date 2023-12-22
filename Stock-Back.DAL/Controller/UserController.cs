@@ -2,6 +2,8 @@
 using Stock_Back.DAL.Data;
 using Stock_Back.DAL.Interfaces;
 using Stock_Back.DAL.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Stock_Back.DAL.Controller
 {
@@ -51,43 +53,77 @@ namespace Stock_Back.DAL.Controller
         }
 
         //POST/PUT/PATCH
-        public async Task<bool> InsertUser(User user)
+        public async Task<User?> InsertUser(User user)
         {
-            if (user.Id > 0) 
+            User? response = new User();
+            if (!string.IsNullOrWhiteSpace(user.Name) &&
+                !string.IsNullOrWhiteSpace(user.Email) &&
+                !string.IsNullOrWhiteSpace(user.Password))
             {
-                User response = new User();
                 response.Name = user.Name;
                 response.Email = user.Email;
-                response.Password = user.Password; 
-                response.Created = DateTime.Now.ToUniversalTime();
-                response.Updated= DateTime.Now.ToUniversalTime();
+                response.Password = user.Password;
+
+                // Generar la hora actual en UTC
+                DateTime utcNow = DateTime.UtcNow; // Es más directo y recomendable usar DateTime.UtcNow
+                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); // Para sistemas Windows
+                DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
+
+                response.Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
+                response.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
+
                 await _context.Users.AddAsync(response);
                 await _context.SaveChangesAsync();
-                return true;
             }
-            return false;
+            else
+            {
+                return null;
+            }
+            
+            return response;
+            
         }
 
         public async Task<User?> UpdateUser(User user)
         {
-            User? response = new User();
-            if (user.Id > 0)
+            var response = await _context.Users.Where(userAux => userAux.Id.Equals(user.Id)).FirstOrDefaultAsync();
+            if (response != null)
             {
-                
-                response = await _context.Users.Where(userAux => userAux.Id.Equals(user.Id)).FirstOrDefaultAsync();
-                if (response != null)
+                if (!string.IsNullOrWhiteSpace(user.Name))
                 {
                     response.Name = user.Name;
-                    response.Email = user.Email;
-                    response.Password = user.Password;
-                    response.Updated = DateTime.Now.ToUniversalTime();
-                    await _context.SaveChangesAsync();
-                    
                 }
-                
+
+                if (!string.IsNullOrWhiteSpace(user.Email))
+                {
+                    response.Email = user.Email;
+                }
+
+                if (!string.IsNullOrWhiteSpace(user.Password))
+                {
+                    response.Password = user.Password;
+                }
+
+                // Generar la hora actual en UTC
+                DateTime utcNow = DateTime.UtcNow; // Es más directo y recomendable usar DateTime.UtcNow
+                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); // Para sistemas Windows
+                DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
+                response.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
+
+                await _context.SaveChangesAsync();
+
             }
             return response;
         }
+
+        public async Task<int> GetUserIdByEmail(string email)
+        {
+            var user = await _context.Users
+                             .Where(u => u.Email == email)
+                             .FirstOrDefaultAsync();
+            return user?.Id ?? 0;
+        }
+
 
         public async Task<bool> DeleteUser(int id)
         {
@@ -100,6 +136,15 @@ namespace Stock_Back.DAL.Controller
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> UserEmailExist(string email)
+        {
+            var user = await _context.Users
+                             .FirstOrDefaultAsync(u => u.Email == email);
+
+            // Retorna true si se encontró un usuario, false en caso contrario.
+            return user != null;
         }
     }
 }

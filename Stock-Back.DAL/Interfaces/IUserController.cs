@@ -11,8 +11,10 @@ namespace Stock_Back.DAL.Interfaces
     {
         public Task<List<User>> GetAllUsers();
         public Task<User?> GetUserById(int id);
-        public Task<bool> InsertUser(User user);
+        public Task<int> GetUserIdByEmail(string email);
+        public Task<User?> InsertUser(User user);
         public Task<User?> UpdateUser(User user);
         public Task<bool> DeleteUser(int id);
+        public Task<bool> UserEmailExist(string email);
     }
 }
