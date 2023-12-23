@@ -3,8 +3,7 @@ using Stock_Back.DAL.Controller.UserControllers;
 using Stock_Back.DAL.Data;
 using Stock_Back.DAL.Interfaces;
 using Stock_Back.DAL.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Stock_Back.DAL.Controller
 {
