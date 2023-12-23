@@ -15,6 +15,6 @@ namespace Stock_Back.DAL.Interfaces
         public Task<User?> InsertUser(User user);
         public Task<User?> UpdateUser(User user);
         public Task<bool> DeleteUser(int id);
-        public Task<bool> UserEmailExist(string email);
+        public Task<bool> UserEmailExists(string email);
     }
 }
