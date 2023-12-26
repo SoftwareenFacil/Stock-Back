@@ -43,7 +43,7 @@ namespace Stock_Back.Controllers
             {
                 type = ResponseType.Success;
                 var token = this.manejoJwt.GenerarToken(user.Email, user.Password); // Asegúrate de que manejoJwt.GenerarToken esté definido y sea el método correcto
-                return Ok(ResponseHandler.GetAppResponse(type, "Token: " + token)); // Retorna el token como una respuesta 200 Ok
+                return Ok(ResponseHandler.GetAppResponse(type, token)); // Retorna el token como una respuesta 200 Ok
             }
 
             return Unauthorized(ResponseHandler.GetAppResponse(type,"Credencial no autorizada.")); // O podrías querer usar BadRequest o alguna otra respuesta apropiada
