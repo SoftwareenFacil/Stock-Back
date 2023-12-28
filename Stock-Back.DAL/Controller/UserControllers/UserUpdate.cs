@@ -17,6 +17,11 @@ namespace Stock_Back.DAL.Controller.UserControllers
             var response = await _context.Users.Where(userAux => userAux.Id.Equals(user.Id)).FirstOrDefaultAsync();
             if (response != null)
             {
+                if (string.IsNullOrWhiteSpace(user.Name) && string.IsNullOrWhiteSpace(user.Email) && string.IsNullOrWhiteSpace(user.Password))
+                {
+                    return null;
+                }
+
                 if (!string.IsNullOrWhiteSpace(user.Name))
                 {
                     response.Name = user.Name;

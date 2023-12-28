@@ -34,7 +34,7 @@ namespace Stock_Back.Controllers
             // Asegúrate de que las credenciales proporcionadas sean válidas
             if (credentials == null || string.IsNullOrWhiteSpace(credentials.Email) || string.IsNullOrWhiteSpace(credentials.Password))
             {
-                return BadRequest(ResponseHandler.GetAppResponse(type, "Credenciales inválidas."));
+                return BadRequest(ResponseHandler.GetAppResponse(type, "Invalid Credentials."));
             }
 
             var userId = await _userController.GetUserIdByEmail(credentials.Email);
@@ -46,8 +46,8 @@ namespace Stock_Back.Controllers
                 return Ok(ResponseHandler.GetAppResponse(type, token)); // Retorna el token como una respuesta 200 Ok
             }
 
-            return Unauthorized(ResponseHandler.GetAppResponse(type,"Credencial no autorizada.")); // O podrías querer usar BadRequest o alguna otra respuesta apropiada
+            //return StatusCode(401, ResponseHandler.GetAppResponse(type, "Credencial no autorizada."));
+            return Unauthorized(ResponseHandler.GetAppResponse(type, "Unauthorized Credentials")); // O podrías querer usar BadRequest o alguna otra respuesta apropiada
         }
-
     }
 }
