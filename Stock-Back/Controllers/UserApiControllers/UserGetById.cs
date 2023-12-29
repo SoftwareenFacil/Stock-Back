@@ -21,7 +21,7 @@ namespace Stock_Back.Controllers.UserApiControllers
                 if (user == null)
                 {
                     type = ResponseType.NotFound;
-                    return NotFound(ResponseHandler.GetAppResponse(type, user));
+                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
                 }
                 return Ok(ResponseHandler.GetAppResponse(type, user));
             }

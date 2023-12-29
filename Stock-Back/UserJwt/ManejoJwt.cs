@@ -14,25 +14,26 @@ namespace Stock_Back.UserJwt
             configuration = _configuration;
         }
 
-        public string GenerarToken(string email, string password)
+        public string GenerarToken(string email, bool superAdmin)
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim("email",email),
-                new Claim("password",password)
+                new Claim("email", email),
+                // Incluye el rol del usuario como una claim.
+                new Claim("SuperAdmin", superAdmin.ToString())
             };
 
-            var llave = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(configuration.GetSection("ConfiguracionJwt:Llave").Get<string>() ?? string.Empty));
-
+            var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("ConfiguracionJwt:Llave").Get<string>() ?? string.Empty));
             var credentials = new SigningCredentials(llave, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer:null,
-                audience:null,
-                claims,expires: DateTime.Now.AddMinutes(60),
-                signingCredentials:credentials
+                issuer: null,
+                audience: null,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(60),
+                signingCredentials: credentials
                 );
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

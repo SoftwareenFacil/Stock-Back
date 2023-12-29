@@ -23,7 +23,7 @@ namespace Stock_Back.Controllers
         public LoginController(IManejoJwt manejoJwt, AppDbContext dbContext)
         {
             this.manejoJwt = manejoJwt;
-            this._userController = new UserController(dbContext);
+            _userController = new UserController(dbContext);
         }
 
         [AllowAnonymous]
@@ -42,7 +42,7 @@ namespace Stock_Back.Controllers
             if (user != null && user.Password == credentials.Password)
             {
                 type = ResponseType.Success;
-                var token = this.manejoJwt.GenerarToken(user.Email, user.Password); // Asegúrate de que manejoJwt.GenerarToken esté definido y sea el método correcto
+                var token = manejoJwt.GenerarToken(user.Email, user.SuperAdmin); // Asegúrate de que manejoJwt.GenerarToken esté definido y sea el método correcto
                 return Ok(ResponseHandler.GetAppResponse(type, token)); // Retorna el token como una respuesta 200 Ok
             }
 
