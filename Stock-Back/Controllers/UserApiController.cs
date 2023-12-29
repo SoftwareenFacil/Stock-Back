@@ -56,17 +56,7 @@ namespace Stock_Back.Controllers
             // Extrae la claim de SuperAdmin del token.
             var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
 
-            // Verifica si el usuario es SuperAdmin.
-            if (isSuperAdmin != null && bool.Parse(isSuperAdmin))
-            {
-                // El usuario es SuperAdmin, procede con la inserción.
-                return await userPost.InsertUser(user);
-            }
-            else
-            {
-                // El usuario no es SuperAdmin, no permitir la acción.
-                return Forbid("No tienes permisos para insertar usuarios.");
-            }
+            return await userPost.InsertUser(user, isSuperAdmin);
         }
 
         // PUT api/<UserApiController>/5

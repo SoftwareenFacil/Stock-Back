@@ -13,27 +13,43 @@ namespace Stock_Back.Controllers.UserApiControllers
             _userController = dbController;
         }
 
-        public async Task<IActionResult> InsertUser(User user)
+        public async Task<IActionResult> InsertUser(User user, string? isSuperAdminClaim)
         {
-            try
+            var isSuperAdmin = false;
+
+            // Intenta convertir el claim en un valor booleano, si es nulo o inválido, mantendrá el valor predeterminado.
+            if (isSuperAdminClaim != null)
             {
-                ResponseType type = ResponseType.Success;
-                if (await _userController.UserEmailExists(user.Email))
-                {
-                    type = ResponseType.Failure;
-                    return BadRequest(ResponseHandler.GetAppResponse(type, "This email already exists in our records"));
-                }
-                var inserted = await _userController.InsertUser(user);
-                if (inserted == null)
-                {
-                    type = ResponseType.Failure;
-                    return BadRequest(ResponseHandler.GetAppResponse(type, "The user could not be inserted, please make sure you upload the correct format (name, email and password)."));
-                }
-                return StatusCode(201, ResponseHandler.GetAppResponse(type, inserted));
+                bool.TryParse(isSuperAdminClaim, out isSuperAdmin);
             }
-            catch (Exception ex)
+
+            if (isSuperAdmin)
             {
-                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
+                try
+                {
+                    ResponseType type = ResponseType.Success;
+                    if (await _userController.UserEmailExists(user.Email))
+                    {
+                        type = ResponseType.Failure;
+                        return BadRequest(ResponseHandler.GetAppResponse(type, "This email already exists in our records"));
+                    }
+                    var inserted = await _userController.InsertUser(user);
+                    if (inserted == null)
+                    {
+                        type = ResponseType.Failure;
+                        return BadRequest(ResponseHandler.GetAppResponse(type, "The user could not be inserted, please make sure you upload the correct format (name, email and password)."));
+                    }
+                    return StatusCode(201, ResponseHandler.GetAppResponse(type, inserted));
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
+                }
+            }
+            else
+            {
+                // El usuario no es SuperAdmin, no permitir la acción.
+                return Forbid("No tienes permisos para insertar usuarios.");
             }
         }
     }

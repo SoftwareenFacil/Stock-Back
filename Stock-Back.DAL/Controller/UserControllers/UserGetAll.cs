@@ -23,7 +23,8 @@ namespace Stock_Back.DAL.Controller.UserControllers
                 Email = row.Email,
                 Password = row.Password,
                 Created = row.Created,
-                Updated = row.Updated
+                Updated = row.Updated,
+                SuperAdmin = row.SuperAdmin
             }));
             return users;
         }
