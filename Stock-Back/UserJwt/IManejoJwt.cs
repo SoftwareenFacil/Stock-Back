@@ -2,6 +2,6 @@
 {
     public interface IManejoJwt
     {
-        public string GenerarToken(string email, string password);
+        public string GenerarToken(string email, bool superAdmin);
     }
 }

@@ -25,7 +25,8 @@ namespace Stock_Back.DAL.Controller.UserControllers
                     Email = response.Email,
                     Password = response.Password,
                     Created = DateTime.Now.ToUniversalTime(),
-                    Updated = DateTime.Now.ToUniversalTime()
+                    Updated = DateTime.Now.ToUniversalTime(),
+                    SuperAdmin = response.SuperAdmin
                 };
             }
 

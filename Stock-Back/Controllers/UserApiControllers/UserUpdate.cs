@@ -25,6 +25,11 @@ namespace Stock_Back.Controllers.UserApiControllers
                     return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
                 }
                 var updatedUser = await _userController.UpdateUser(userEdited);
+                if (updatedUser == null)
+                {
+                    type = ResponseType.Failure;
+                    return BadRequest(ResponseHandler.GetAppResponse(type, "The name, email or password fields were not included in the request."));
+                }
                 return Ok(ResponseHandler.GetAppResponse(type, updatedUser));
             }
             catch (Exception ex)

@@ -31,20 +31,21 @@ namespace Stock_Back.Controllers
             userDelete = new UserDelete(_userController);
         }
 
-        // GET all
+        // GET all or by id
         [HttpGet]
-        [Route("api/[controller]/GetUsers")]
-        public async Task<IActionResult> Get()
+        [Route("api/[controller]/GetUsers/{id?}")]
+        public async Task<IActionResult> GetUsers(int? id)
         {
-            return await userGetAll.GetUsers();
-        }
-
-        // GET by id
-        [HttpGet]
-        [Route("api/[controller]/GetUserById/{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            return await userGetById.GetUserById(id);
+            // Si se proporciona un ID, obtener el usuario específico.
+            if (id.HasValue)
+            {
+                return await userGetById.GetUserById(id.Value);
+            }
+            // Si no, obtener todos los usuarios.
+            else
+            {
+                return await userGetAll.GetUsers();
+            }
         }
 
         // POST api/<UserApiController>
@@ -52,7 +53,10 @@ namespace Stock_Back.Controllers
         [Route("api/[controller]/InsertUser")]
         public async Task<IActionResult> Post([FromBody] User user)
         {
-            return await userPost.InsertUser(user);
+            // Extrae la claim de SuperAdmin del token.
+            var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
+
+            return await userPost.InsertUser(user, isSuperAdmin);
         }
 
         // PUT api/<UserApiController>/5
