@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Stock_Back.DAL.Controller.UserControllers;
+using Stock_Back.DAL.Data;
 using Stock_Back.DAL.Interfaces;
 using Stock_Back.Models;
+using Stock_Back.UserJwt;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
-    public class UserGetAll : ControllerBase
+    public class GetAllUsers : ControllerBase
     {
-        private readonly IUserController _userController;
-        public UserGetAll(IUserController dbController)
+        private readonly UserGetAll _users;
+        public GetAllUsers(AppDbContext context)
         {
-            _userController = dbController;
+            _users = new UserGetAll(context);
         }
         
         public async Task<IActionResult> GetUsers()
@@ -17,7 +20,7 @@ namespace Stock_Back.Controllers.UserApiControllers
             try
             {
                 ResponseType type = ResponseType.Success;
-                var users = await _userController.GetAllUsers();
+                var users = await _users.GetAllUsers();
                 if (!users.Any())
                 {
                     type = ResponseType.NotFound;

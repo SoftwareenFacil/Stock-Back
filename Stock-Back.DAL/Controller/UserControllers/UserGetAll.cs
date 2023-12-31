@@ -15,7 +15,7 @@ namespace Stock_Back.DAL.Controller.UserControllers
         public async Task<List<User>> GetAllUsers()
         {
             List<User> users = new List<User>();
-            var dataList = await _context.Users.ToListAsync();
+            var dataList = await _context.Users.Take(100).ToListAsync();
             dataList.ForEach(row => users.Add(new User()
             {
                 Id = row.Id,

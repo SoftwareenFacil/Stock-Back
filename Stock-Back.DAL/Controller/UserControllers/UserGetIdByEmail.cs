@@ -3,7 +3,7 @@ using Stock_Back.DAL.Data;
 
 namespace Stock_Back.DAL.Controller.UserControllers
 {
-    internal class UserGetIdByEmail
+    public class UserGetIdByEmail
     {
         private AppDbContext _context;
         public UserGetIdByEmail(AppDbContext _dbContext)

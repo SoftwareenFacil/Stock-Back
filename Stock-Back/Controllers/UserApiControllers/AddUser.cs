@@ -2,38 +2,35 @@
 using Stock_Back.DAL.Interfaces;
 using Stock_Back.Models;
 using Stock_Back.DAL.Models;
+using Stock_Back.UserJwt;
+using Stock_Back.DAL.Data;
+using Stock_Back.DAL.Controller.UserControllers;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
-    public class UserPost : ControllerBase
+    public class AddUser : ControllerBase
     {
-        private readonly IUserController _userController;
-        public UserPost(IUserController dbController)
+        private readonly AppDbContext _context;
+        public AddUser(AppDbContext context)
         {
-            _userController = dbController;
+            _context = context;
         }
 
-        public async Task<IActionResult> InsertUser(User user, string? isSuperAdminClaim)
+        public async Task<IActionResult> InsertUser(User user, string isSuperAdminClaim)
         {
-            var isSuperAdmin = false;
-
-            // Intenta convertir el claim en un valor booleano, si es nulo o inválido, mantendrá el valor predeterminado.
-            if (isSuperAdminClaim != null)
-            {
-                bool.TryParse(isSuperAdminClaim, out isSuperAdmin);
-            }
-
-            if (isSuperAdmin)
+            if (!string.IsNullOrEmpty(isSuperAdminClaim))
             {
                 try
                 {
                     ResponseType type = ResponseType.Success;
-                    if (await _userController.UserEmailExists(user.Email))
+                    var getEmail = new UserGetIdByEmail(_context);
+                    if (await getEmail.GetUserIdByEmail(user.Email) > 0)
                     {
                         type = ResponseType.Failure;
-                        return BadRequest(ResponseHandler.GetAppResponse(type, "This email already exists in our records"));
+                        return BadRequest(ResponseHandler.GetAppResponse(type, "This email already exists in our records")); //TODO: all error messages must move to a config file
                     }
-                    var inserted = await _userController.InsertUser(user);
+                    var inserter = new UserPost(_context);
+                    var inserted = await inserter.InsertUser(user);
                     if (inserted == null)
                     {
                         type = ResponseType.Failure;

@@ -1,7 +1,8 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using Stock_Back.Models;
 
-namespace Stock_Back.Models
+namespace Stock_Back.UserJwt
 {
     public class ResponseHandler
     {
@@ -30,6 +31,12 @@ namespace Stock_Back.Models
                     break;
             }
             return response;
+        }
+        public static bool IsAdmin(string claim)
+        {
+            if (string.IsNullOrEmpty(claim))
+                return false;
+            return true;
         }
     }
 }

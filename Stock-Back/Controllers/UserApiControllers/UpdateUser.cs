@@ -1,30 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stock_Back.DAL.Interfaces;
 using Stock_Back.Models;
 using Stock_Back.DAL.Models;
+using Stock_Back.UserJwt;
+using Stock_Back.DAL.Data;
+using Stock_Back.DAL.Controller.UserControllers;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
-    public class UserUpdate : ControllerBase
+    public class UpdateUser : ControllerBase
     {
-        private readonly IUserController _userController;
-        public UserUpdate(IUserController dbController)
+        private readonly AppDbContext _context;
+        public UpdateUser(AppDbContext context)
         {
-            _userController = dbController;
+            _context = context;
         }
 
-        public async Task<IActionResult> UpdateUser(User userEdited)
+        public async Task<IActionResult> Update(User userEdited)
         {
             try
             {
                 ResponseType type = ResponseType.Success;
-                var user = await _userController.GetUserById(userEdited.Id);
+                var getter = new GetUsers(_context);
+                var user = await getter.GetUserByID(userEdited.Id);
                 if (user == null)
                 {
                     type = ResponseType.NotFound;
                     return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
                 }
-                var updatedUser = await _userController.UpdateUser(userEdited);
+                var updater = new UserUpdate(_context);
+                var updatedUser = await updater.UpdateUser(userEdited);
                 if (updatedUser == null)
                 {
                     type = ResponseType.Failure;

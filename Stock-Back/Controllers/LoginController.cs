@@ -5,6 +5,7 @@ using Stock_Back.DAL.Controller;
 using Stock_Back.UserJwt;
 using Stock_Back.DAL.Data;
 using Stock_Back.Models;
+using Stock_Back.Controllers.UserApiControllers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,13 +18,12 @@ namespace Stock_Back.Controllers
     public class LoginController : ControllerBase
     {
         private IManejoJwt manejoJwt;
-        private UserController _userController;
-        
+        private readonly AppDbContext _context;
 
         public LoginController(IManejoJwt manejoJwt, AppDbContext dbContext)
         {
             this.manejoJwt = manejoJwt;
-            _userController = new UserController(dbContext);
+            _context = dbContext;
         }
 
         [AllowAnonymous]
@@ -36,9 +36,9 @@ namespace Stock_Back.Controllers
             {
                 return BadRequest(ResponseHandler.GetAppResponse(type, "Invalid Credentials."));
             }
-
-            var userId = await _userController.GetUserIdByEmail(credentials.Email);
-            User? user = await _userController.GetUserById(userId);
+            var getter = new GetUsers(_context);
+            var userId = await getter.GetUserByEmail(credentials.Email);
+            User? user = await getter.GetUserByID(userId);
             if (user != null && user.Password == credentials.Password)
             {
                 type = ResponseType.Success;
