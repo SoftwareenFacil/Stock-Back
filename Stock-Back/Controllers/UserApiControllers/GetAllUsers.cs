@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stock_Back.DAL.Controller.UserControllers;
 using Stock_Back.DAL.Data;
-using Stock_Back.DAL.Interfaces;
 using Stock_Back.Models;
 using Stock_Back.UserJwt;
+using Stock_Back.BLL;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
     public class GetAllUsers : ControllerBase
     {
-        private readonly UserGetAll _users;
+        private readonly BLL.GetUsers _users;
         public GetAllUsers(AppDbContext context)
         {
-            _users = new UserGetAll(context);
+            _users = new BLL.GetUsers(context);
         }
         
         public async Task<IActionResult> GetUsers()
