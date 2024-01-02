@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Stock-Back.BLL\Stock-Back.BLL.csproj" />
     <ProjectReference Include="..\Stock-Back.DAL\Stock-Back.DAL.csproj" />
   </ItemGroup>
 

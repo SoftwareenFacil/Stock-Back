@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock-Back", "Stock-Back\Stock-Back.csproj", "{F4ABB428-786B-45C4-B1DE-1BC46CB8E802}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock-Back.DAL", "Stock-Back.DAL\Stock-Back.DAL.csproj", "{D66A725D-E3E8-4BA8-8C1C-19A4B22F2BBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock-Back.DAL", "Stock-Back.DAL\Stock-Back.DAL.csproj", "{D66A725D-E3E8-4BA8-8C1C-19A4B22F2BBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock-Back.BLL", "Stock-Back.BLL\Stock-Back.BLL.csproj", "{307874CC-0E3C-4B93-B8C6-03A5756EFB33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D66A725D-E3E8-4BA8-8C1C-19A4B22F2BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D66A725D-E3E8-4BA8-8C1C-19A4B22F2BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D66A725D-E3E8-4BA8-8C1C-19A4B22F2BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{307874CC-0E3C-4B93-B8C6-03A5756EFB33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{307874CC-0E3C-4B93-B8C6-03A5756EFB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{307874CC-0E3C-4B93-B8C6-03A5756EFB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{307874CC-0E3C-4B93-B8C6-03A5756EFB33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

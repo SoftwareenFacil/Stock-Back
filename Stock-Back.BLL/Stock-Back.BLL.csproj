@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Stock-Back.DAL\Stock-Back.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
