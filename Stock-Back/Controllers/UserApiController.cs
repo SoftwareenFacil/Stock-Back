@@ -16,21 +16,11 @@ namespace Stock_Back.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/GetUsers/{id?}")]
-        public async Task<IActionResult> GetUsers(int? id)
+        [Route("api/[controller]/GetUsers/{id}")]
+        public async Task<IActionResult> GetUsers(int id)
         {
-            // Si se proporciona un ID, obtener el usuario específico.
-            if (id.HasValue)
-            {
-                var userGetById = new GetUsers(_context);
-                return await userGetById.GetResponseUserById(id.Value);
-            }
-            // Si no, obtener todos los usuarios.
-            else
-            {
-                var usergetAll = new GetAllUsers(_context);
-                return await usergetAll.GetUsers();
-            }
+            var userGetter = new GetUsers(_context);
+            return await userGetter.GetResponseUsers(id);
         }
 
         [HttpPost]

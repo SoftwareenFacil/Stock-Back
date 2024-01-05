@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Stock_Back.DAL.Models;
 using Stock_Back.BLL.Models;
-using Stock_Back.DAL.Controllers;
-using Stock_Back.UserJwt;
-using Stock_Back.DAL.Context;
-using Stock_Back.Models;
-using Stock_Back.Controllers.UserApiControllers;
 using Stock_Back.Controllers.LoginControllers;
 using Stock_Back.BLL.Controllers.JwtControllers;
+using Stock_Back.DAL.Context;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

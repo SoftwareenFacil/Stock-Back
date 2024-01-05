@@ -22,6 +22,7 @@ namespace Stock_Back.DAL.Controllers.UserControllers
                 Name = row.Name,
                 Email = row.Email,
                 Password = row.Password,
+                Phone = row.Phone,
                 Created = row.Created,
                 Updated = row.Updated,
                 SuperAdmin = row.SuperAdmin

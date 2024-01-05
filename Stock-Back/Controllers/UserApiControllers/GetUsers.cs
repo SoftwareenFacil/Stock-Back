@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Stock_Back.DAL.Controllers.UserControllers;
-using Stock_Back.DAL.Context;
-using Stock_Back.DAL.Models;
-using Stock_Back.Models;
+using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.UserJwt;
+using Stock_Back.DAL.Context;
+using Stock_Back.Models;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
@@ -17,34 +15,43 @@ namespace Stock_Back.Controllers.UserApiControllers
             
         }
 
-        public async Task<IActionResult> GetResponseUserById(int id)
+        public async Task<IActionResult> GetResponseUsers(int id)
         {
             try
             {
                 ResponseType type = ResponseType.Success;
-                var _userController = new UserGetById(_context);
-                var user = await _userController.GetUserById(id);
-                if (user == null)
+                var userGetter = new GetUsersController(_context);
+                if (id == 0)
                 {
-                    type = ResponseType.NotFound;
-                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
+                    var users = await userGetter.GetAllUsers();
+                    if (users == null)
+                    {
+                        type = ResponseType.NotFound;
+                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
+                    }
+                    return Ok(ResponseHandler.GetAppResponse(type, users));
                 }
-                return Ok(ResponseHandler.GetAppResponse(type, user));
+                else
+                {
+                    var user = await userGetter.GetUserById(id);
+                    if (user == null)
+                    {
+                        type = ResponseType.NotFound;
+                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
+                    }
+                    return Ok(ResponseHandler.GetAppResponse(type, user));
+                }
             }
             catch (Exception ex)
             {
                 return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
-        public async Task<User?> GetUserByID(int id)
-        {
-            var use = new UserGetById(_context);
-            return await use.GetUserById(id);
-        }
-        public async Task<int> GetUserByEmail(string email)
-        {
-            var use = new UserGetIdByEmail(_context);
-            return await use.GetUserIdByEmail(email);
-        }
+        
+        //public async Task<int> GetUserByEmail(string email)
+        //{
+            //var use = new UserGetIdByEmail(_context);
+            //return await use.GetUserIdByEmail(email);
+        //}
     }
 }

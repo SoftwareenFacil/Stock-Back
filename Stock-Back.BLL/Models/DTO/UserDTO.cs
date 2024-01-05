@@ -1,13 +1,11 @@
-﻿
-namespace Stock_Back.BLL.Models
+﻿namespace Stock_Back.BLL.Models.DTO
 {
     public class UserDTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+        public string Phone { get; set; } = string.Empty;
         public bool SuperAdmin { get; set; }
     }
 }

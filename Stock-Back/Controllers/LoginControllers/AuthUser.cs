@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using Stock_Back.Models;
 using Stock_Back.BLL.Models;
 using Stock_Back.BLL.Controllers.LoginControllers;
 using Stock_Back.UserJwt;
-using Stock_Back.DAL.Context;
-using Stock_Back.DAL.Controllers.UserControllers;
 using Stock_Back.BLL.Controllers.JwtControllers;
+using Stock_Back.DAL.Context;
 
 namespace Stock_Back.Controllers.LoginControllers
 {

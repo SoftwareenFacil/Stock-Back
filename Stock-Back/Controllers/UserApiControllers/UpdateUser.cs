@@ -21,7 +21,7 @@ namespace Stock_Back.Controllers.UserApiControllers
             {
                 ResponseType type = ResponseType.Success;
                 var getter = new GetUsers(_context);
-                var user = await getter.GetUserByID(userEdited.Id);
+                var user = await getter.GetResponseUsers(userEdited.Id);
                 if (user == null)
                 {
                     type = ResponseType.NotFound;
