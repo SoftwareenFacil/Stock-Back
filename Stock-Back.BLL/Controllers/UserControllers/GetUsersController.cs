@@ -19,18 +19,26 @@ namespace Stock_Back.BLL.Controllers.UserControllers
                 return await GetAllUsers();
             return await GetUserById(id);
         }
-        public async Task<UserDTO> GetUserById(int id)
+
+        public async Task<UserDTO?> GetUserById(int id)
         {
             var userGetter = new UserGetById(_context);
             var user = await userGetter.GetUserById(id);
-            return new UserDTO()
+            if(user == null)
             {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                Phone = user.Phone,
-                SuperAdmin = user.SuperAdmin
-            };
+                return null;
+            }
+            else
+            {
+                return new UserDTO()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    SuperAdmin = user.SuperAdmin
+                };
+            }
         }
 
         public async Task<List<UserDTO>> GetAllUsers()

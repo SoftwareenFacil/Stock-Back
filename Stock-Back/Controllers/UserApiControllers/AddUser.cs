@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Stock_Back.BLL.Models;
-using Stock_Back.DAL.Models;
+using Stock_Back.BLL.Models.DTO;
+using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.UserJwt;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Controllers.UserControllers;
@@ -15,27 +16,28 @@ namespace Stock_Back.Controllers.UserApiControllers
             _context = context;
         }
 
-        public async Task<IActionResult> InsertUser(User user, string? isSuperAdminClaim)
+        public async Task<IActionResult> InsertUser(UserInsertDTO user, string? isSuperAdminClaim)
         {
-            if (!string.IsNullOrEmpty(isSuperAdminClaim))
+            if (bool.Parse(isSuperAdminClaim))
             {
                 try
                 {
-                    ResponseType type = ResponseType.Success;
-                    var getEmail = new UserGetIdByEmail(_context);
-                    if (await getEmail.GetUserIdByEmail(user.Email) > 0)
+                    ResponseType type = ResponseType.Failure;
+                    var userCreator = new AddUsersController(_context);
+                    var (isUser, userExist) = await userCreator.AddUser(user);
+                    if (isUser)
                     {
-                        type = ResponseType.Failure;
-                        return BadRequest(ResponseHandler.GetAppResponse(type, "This email already exists in our records")); //TODO: all error messages must move to a config file
+                        type = ResponseType.Success;
+                        return StatusCode(201, ResponseHandler.GetAppResponse(type, user));
                     }
-                    var inserter = new UserPost(_context);
-                    var inserted = await inserter.InsertUser(user);
-                    if (inserted == null)
+                    
+                    if (userExist)
                     {
-                        type = ResponseType.Failure;
-                        return BadRequest(ResponseHandler.GetAppResponse(type, "The user could not be inserted, please make sure you upload the correct format (name, email and password)."));
+                        return BadRequest(ResponseHandler.GetAppResponse(type, "This email already exists in our records"));
                     }
-                    return StatusCode(201, ResponseHandler.GetAppResponse(type, inserted));
+
+                    return BadRequest(ResponseHandler.GetAppResponse(type, "The user could not be inserted, please make sure you upload the correct format (name, email, phone and password)."));
+                    
                 }
                 catch (Exception ex)
                 {

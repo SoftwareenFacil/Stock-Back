@@ -48,11 +48,5 @@ namespace Stock_Back.Controllers.UserApiControllers
                 return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
-        
-        //public async Task<int> GetUserByEmail(string email)
-        //{
-            //var use = new UserGetIdByEmail(_context);
-            //return await use.GetUserIdByEmail(email);
-        //}
     }
 }

@@ -26,9 +26,8 @@ namespace Stock_Back.Controllers
 
         [HttpPost]
         [Route("api/[controller]/InsertUser")]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<IActionResult> InsertUser([FromBody] UserInsertDTO user)
         {
-            // Extrae la claim de SuperAdmin del token.
             var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
             var add = new AddUser(_context);
             return await add.InsertUser(user, isSuperAdmin);
