@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stock_Back.DAL.Interfaces;
-using Stock_Back.Models;
+using Stock_Back.BLL.Models;
 using Stock_Back.DAL.Models;
 using Stock_Back.UserJwt;
 using Stock_Back.DAL.Context;

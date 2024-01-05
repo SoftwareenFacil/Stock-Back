@@ -2,7 +2,7 @@
 using Stock_Back.DAL.Controllers.UserControllers;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Interfaces;
-using Stock_Back.Models;
+using Stock_Back.BLL.Models;
 using Stock_Back.UserJwt;
 
 namespace Stock_Back.Controllers.UserApiControllers

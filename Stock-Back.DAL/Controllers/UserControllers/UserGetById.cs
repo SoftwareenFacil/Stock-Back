@@ -12,7 +12,7 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<User?> GetUserById(int id)
         {
             var response = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
             if (response != null)

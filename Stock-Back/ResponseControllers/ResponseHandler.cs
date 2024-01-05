@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-using Stock_Back.Models;
+﻿using Stock_Back.BLL.Models;
 
 namespace Stock_Back.UserJwt
 {

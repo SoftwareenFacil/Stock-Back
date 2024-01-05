@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stock_Back.Models;
-using Stock_Back.DAL.Models;
+using Stock_Back.BLL.Models.DTO;
 using Stock_Back.UserJwt;
+using Stock_Back.BLL.Models;
+using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.DAL.Context;
-using Stock_Back.DAL.Controllers.UserControllers;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
@@ -15,30 +15,36 @@ namespace Stock_Back.Controllers.UserApiControllers
             _context = context;
         }
 
-        public async Task<IActionResult> Update(User userEdited)
+        public async Task<IActionResult> Update(UserEditDTO userEdited, string? isSuperAdminClaim)
         {
-            try
+            if(bool.Parse(isSuperAdminClaim))
             {
-                ResponseType type = ResponseType.Success;
-                var getter = new GetUsers(_context);
-                var user = await getter.GetResponseUsers(userEdited.Id);
-                if (user == null)
+                try
                 {
-                    type = ResponseType.NotFound;
-                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
+                    var userUpdater = new UpdateUsersController(_context);
+                    var type = await userUpdater.UpdateUser(userEdited);
+
+                    if (type == ResponseType.Success)
+                    {
+                        return Ok(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} updated."));
+                    } 
+                    else if(type == ResponseType.NotFound)
+                    {
+                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
+                    }
+                    else
+                    {
+                        return BadRequest(ResponseHandler.GetAppResponse(type, "The name, email or password fields were not included in the request."));
+                    }
                 }
-                var updater = new UserUpdate(_context);
-                var updatedUser = await updater.UpdateUser(userEdited);
-                if (updatedUser == null)
+                catch (Exception ex)
                 {
-                    type = ResponseType.Failure;
-                    return BadRequest(ResponseHandler.GetAppResponse(type, "The name, email or password fields were not included in the request."));
+                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
                 }
-                return Ok(ResponseHandler.GetAppResponse(type, updatedUser));
             }
-            catch (Exception ex)
+            else
             {
-                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
+                return Forbid("No tienes permisos para insertar usuarios.");
             }
         }
     }

@@ -2,6 +2,7 @@
 using Stock_Back.Controllers.UserApiControllers;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Models;
+using Stock_Back.BLL.Models.DTO;
 
 namespace Stock_Back.Controllers
 {
@@ -35,10 +36,11 @@ namespace Stock_Back.Controllers
 
         [HttpPut]
         [Route("api/[controller]/UpdateUser")]
-        public async Task<IActionResult> Put([FromBody] User userEdited)
+        public async Task<IActionResult> UpdateUser([FromBody] UserEditDTO userEdited)
         {
+            var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
             var updater = new UpdateUser(_context);
-            return await updater.Update(userEdited);
+            return await updater.Update(userEdited, isSuperAdmin);
         }
 
         [HttpDelete]

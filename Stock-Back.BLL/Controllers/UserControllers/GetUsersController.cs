@@ -16,8 +16,8 @@ namespace Stock_Back.BLL.Controllers.UserControllers
         public async Task<dynamic> GetUsers(int id)
         {
             if(id == 0)
-                return GetAllUsers();
-            return GetUserById(id);
+                return await GetAllUsers();
+            return await GetUserById(id);
         }
         public async Task<UserDTO> GetUserById(int id)
         {

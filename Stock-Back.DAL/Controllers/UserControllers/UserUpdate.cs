@@ -17,25 +17,10 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             var response = await _context.Users.Where(userAux => userAux.Id.Equals(user.Id)).FirstOrDefaultAsync();
             if (response != null)
             {
-                if (string.IsNullOrWhiteSpace(user.Name) && string.IsNullOrWhiteSpace(user.Email) && string.IsNullOrWhiteSpace(user.Password))
-                {
-                    return null;
-                }
-
-                if (!string.IsNullOrWhiteSpace(user.Name))
-                {
-                    response.Name = user.Name;
-                }
-
-                if (!string.IsNullOrWhiteSpace(user.Email))
-                {
-                    response.Email = user.Email;
-                }
-
-                if (!string.IsNullOrWhiteSpace(user.Password))
-                {
-                    response.Password = user.Password;
-                }
+                response.Name = user.Name;
+                response.Email = user.Email;
+                response.Password = user.Password;
+                response.Phone = user.Phone;
 
                 // Generar la hora actual en UTC
                 DateTime utcNow = DateTime.UtcNow; // Es más directo y recomendable usar DateTime.UtcNow

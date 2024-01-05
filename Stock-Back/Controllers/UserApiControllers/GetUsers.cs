@@ -2,7 +2,7 @@
 using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.UserJwt;
 using Stock_Back.DAL.Context;
-using Stock_Back.Models;
+using Stock_Back.BLL.Models;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
@@ -19,7 +19,7 @@ namespace Stock_Back.Controllers.UserApiControllers
         {
             try
             {
-                ResponseType type = ResponseType.Success;
+                ResponseType type = ResponseType.Success; 
                 var userGetter = new GetUsersController(_context);
                 //Esta logica moverla a la capa de negocios
                 if (id == 0)
