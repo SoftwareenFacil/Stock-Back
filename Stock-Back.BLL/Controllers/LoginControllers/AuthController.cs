@@ -18,6 +18,7 @@ namespace Stock_Back.BLL.Controllers.LoginControllers
         {
             var idGetter = new UserGetIdByEmail(_context);
             var userGetter = new UserGetById(_context);
+            //hacer un metodo mas que se llame GetUserByEmail
             var userId = await idGetter.GetUserIdByEmail(credentials.Email);
             var user = await userGetter.GetUserById(userId);
             if (user != null && user.Password == credentials.Password)

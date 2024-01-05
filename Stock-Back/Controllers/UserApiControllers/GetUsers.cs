@@ -21,6 +21,7 @@ namespace Stock_Back.Controllers.UserApiControllers
             {
                 ResponseType type = ResponseType.Success;
                 var userGetter = new GetUsersController(_context);
+                //Esta logica moverla a la capa de negocios
                 if (id == 0)
                 {
                     var users = await userGetter.GetAllUsers();

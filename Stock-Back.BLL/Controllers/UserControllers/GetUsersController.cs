@@ -13,6 +13,12 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             _context = _dbContext;
         }
 
+        public async Task<dynamic> GetUsers(int id)
+        {
+            if(id == 0)
+                return GetAllUsers();
+            return GetUserById(id);
+        }
         public async Task<UserDTO> GetUserById(int id)
         {
             var userGetter = new UserGetById(_context);
