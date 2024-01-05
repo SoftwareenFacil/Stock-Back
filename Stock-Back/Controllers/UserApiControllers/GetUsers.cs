@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Stock_Back.DAL.Controller.UserControllers;
-using Stock_Back.DAL.Data;
+using Stock_Back.DAL.Controllers.UserControllers;
+using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Models;
 using Stock_Back.Models;
 using Stock_Back.UserJwt;
@@ -36,7 +36,7 @@ namespace Stock_Back.Controllers.UserApiControllers
                 return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
             }
         }
-        public async Task<User> GetUserByID(int id)
+        public async Task<User?> GetUserByID(int id)
         {
             var use = new UserGetById(_context);
             return await use.GetUserById(id);

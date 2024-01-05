@@ -1,4 +1,4 @@
-﻿namespace Stock_Back.UserJwt
+﻿namespace Stock_Back.BLL.Controllers.JwtControllers
 {
     public interface IManejoJwt
     {

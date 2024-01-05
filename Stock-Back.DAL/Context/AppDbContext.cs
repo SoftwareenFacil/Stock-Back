@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Stock_Back.DAL.Models;
 
 
-namespace Stock_Back.DAL.Data
+namespace Stock_Back.DAL.Context
 {
     public class AppDbContext : DbContext
     {

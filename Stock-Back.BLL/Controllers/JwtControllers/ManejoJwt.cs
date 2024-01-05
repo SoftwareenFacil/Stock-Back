@@ -1,9 +1,10 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Stock_Back.UserJwt
+namespace Stock_Back.BLL.Controllers.JwtControllers
 {
     public class ManejoJwt: IManejoJwt
     {

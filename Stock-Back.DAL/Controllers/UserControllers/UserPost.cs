@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Stock_Back.DAL.Data;
+using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Models;
 
-namespace Stock_Back.DAL.Controller.UserControllers
+namespace Stock_Back.DAL.Controllers.UserControllers
 {
     public class UserPost
     {

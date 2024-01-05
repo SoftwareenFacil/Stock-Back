@@ -2,8 +2,8 @@
 using Stock_Back.Models;
 using Stock_Back.DAL.Models;
 using Stock_Back.UserJwt;
-using Stock_Back.DAL.Data;
-using Stock_Back.DAL.Controller.UserControllers;
+using Stock_Back.DAL.Context;
+using Stock_Back.DAL.Controllers.UserControllers;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {

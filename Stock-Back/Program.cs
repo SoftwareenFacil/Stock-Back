@@ -1,14 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Stock_Back.Models;
-using Stock_Back.DAL;
-using System;
-using Stock_Back.DAL.Data;
+using Stock_Back.DAL.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Stock_Back.UserJwt;
+using Stock_Back.BLL.Controllers.JwtControllers;
 
 namespace Stock_Back
 {

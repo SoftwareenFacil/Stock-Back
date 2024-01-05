@@ -1,4 +1,4 @@
-﻿namespace Stock_Back.Models
+﻿namespace Stock_Back.BLL.Models
 {
     public class UserCredentials
     {
