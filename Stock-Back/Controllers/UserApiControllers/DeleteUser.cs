@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stock_Back.DAL.Controllers.UserControllers;
+using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Interfaces;
 using Stock_Back.BLL.Models;
@@ -15,26 +15,31 @@ namespace Stock_Back.Controllers.UserApiControllers
             _context = context;
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, string? isSuperAdminClaim)
         {
-            try
+            if (bool.Parse(isSuperAdminClaim))
             {
-                //TODO: Mover la lógica de la respuesta fuera de la capa de negocio y serparar ambas capas
-                //TODO: Validar si el usuario existe
-                ResponseType type = ResponseType.Success;
-                var deleter = new UserDelete(_context);
-                var deleted = await deleter.DeleteUser(id);
-                if (!deleted)
+                try
                 {
-                    //TODO: Mover respuestas string a un archivo de config
-                    type = ResponseType.NotFound;
-                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with ID {id} not found."));
+                    ResponseType type = ResponseType.Success;
+                    var deleter = new DeleteUsersController(_context);
+                    var isDeleted = await deleter.DeleteUserById(id);
+                    if (!isDeleted)
+                    {
+                        type = ResponseType.NotFound;
+                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with ID {id} not found."));
+                    }
+                    return Ok(ResponseHandler.GetAppResponse(type, $"User with ID {id} deleted successfully."));
                 }
-                return Ok(ResponseHandler.GetAppResponse(type, $"User with ID {id} deleted successfully."));
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
+                // El usuario no es SuperAdmin, no permitir la acción.
+                return Forbid("No tienes permisos para insertar usuarios.");
             }
         }
     }

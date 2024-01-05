@@ -44,10 +44,11 @@ namespace Stock_Back.Controllers
 
         [HttpDelete]
         [Route("api/[controller]/DeleteUser/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
+            var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
             var deleter = new DeleteUser(_context);
-            return await deleter.Delete(id);
+            return await deleter.Delete(id, isSuperAdmin);
         }
     }
 }
