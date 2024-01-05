@@ -2,11 +2,6 @@
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Controllers.UserControllers;
 using Stock_Back.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stock_Back.BLL.Controllers.UserControllers
 {
@@ -40,9 +35,9 @@ namespace Stock_Back.BLL.Controllers.UserControllers
                 userCreate.Password = user.Password;
                 userCreate.Phone = user.Phone;
 
-                // Generar la hora actual en UTC
-                DateTime utcNow = DateTime.UtcNow; // Es más directo y recomendable usar DateTime.UtcNow
-                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); // Para sistemas Windows
+                
+                DateTime utcNow = DateTime.UtcNow; 
+                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); 
                 DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
 
                 userCreate.Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);

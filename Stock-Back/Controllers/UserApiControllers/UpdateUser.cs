@@ -39,7 +39,7 @@ namespace Stock_Back.Controllers.UserApiControllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
+                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); 
                 }
             }
             else

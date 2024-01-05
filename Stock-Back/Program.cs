@@ -17,14 +17,12 @@ namespace Stock_Back
             builder.Services.AddDbContext<AppDbContext>(
                     o => o.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"))
                 );
-            // Add services to the container.
             builder.Services.AddControllers(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors(options =>
@@ -38,7 +36,6 @@ namespace Stock_Back
                 });
             });
 
-            // auth jwt
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -56,7 +53,6 @@ namespace Stock_Back
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

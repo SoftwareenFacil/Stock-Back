@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.DAL.Context;
-using Stock_Back.DAL.Interfaces;
 using Stock_Back.BLL.Models;
 using Stock_Back.UserJwt;
 
@@ -38,7 +37,6 @@ namespace Stock_Back.Controllers.UserApiControllers
             }
             else
             {
-                // El usuario no es SuperAdmin, no permitir la acción.
                 return Forbid("No tienes permisos para insertar usuarios.");
             }
         }

@@ -20,7 +20,6 @@ namespace Stock_Back.BLL.Controllers.JwtControllers
             var claims = new List<Claim>
             {
                 new Claim("email", email),
-                // Incluye el rol del usuario como una claim.
                 new Claim("SuperAdmin", superAdmin.ToString())
             };
 

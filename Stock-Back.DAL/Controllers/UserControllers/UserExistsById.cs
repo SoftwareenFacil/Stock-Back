@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stock_Back.DAL.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stock_Back.DAL.Controllers.UserControllers
 {
@@ -21,7 +16,6 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             var user = await _context.Users
                              .FirstOrDefaultAsync(u => u.Email == email);
 
-            // Retorna true si se encontró un usuario, false en caso contrario.
             return user != null;
         }
     }

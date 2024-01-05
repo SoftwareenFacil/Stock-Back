@@ -5,8 +5,6 @@ using Stock_Back.Controllers.LoginControllers;
 using Stock_Back.BLL.Controllers.JwtControllers;
 using Stock_Back.DAL.Context;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Stock_Back.Controllers
 {
 

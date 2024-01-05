@@ -4,7 +4,7 @@ using Stock_Back.BLL.Models.DTO;
 using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.UserJwt;
 using Stock_Back.DAL.Context;
-using Stock_Back.DAL.Controllers.UserControllers;
+
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
@@ -41,12 +41,11 @@ namespace Stock_Back.Controllers.UserApiControllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
+                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
                 }
             }
             else
             {
-                // El usuario no es SuperAdmin, no permitir la acción.
                 return Forbid("No tienes permisos para insertar usuarios.");
             }
         }

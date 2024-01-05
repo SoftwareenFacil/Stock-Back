@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stock_Back.DAL.Controllers.UserControllers
 {

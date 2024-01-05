@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Stock_Back.DAL.Models;
+﻿using Stock_Back.DAL.Models;
 
 namespace Stock_Back.DAL.Interfaces
 {

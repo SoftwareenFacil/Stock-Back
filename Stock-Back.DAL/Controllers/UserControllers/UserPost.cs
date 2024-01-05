@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Stock_Back.DAL.Context;
+﻿using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Models;
 
 namespace Stock_Back.DAL.Controllers.UserControllers

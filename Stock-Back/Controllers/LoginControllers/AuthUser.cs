@@ -20,7 +20,6 @@ namespace Stock_Back.Controllers.LoginControllers
         public async Task<IActionResult> Authenticate(UserCredentials credentials)
         {
             ResponseType type = ResponseType.Failure;
-            // Asegúrate de que las credenciales proporcionadas sean válidas
             if (credentials == null || string.IsNullOrWhiteSpace(credentials.Email) || string.IsNullOrWhiteSpace(credentials.Password))
             {
                 return BadRequest(ResponseHandler.GetAppResponse(type, "Invalid Credentials."));

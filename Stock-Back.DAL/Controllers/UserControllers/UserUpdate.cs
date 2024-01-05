@@ -21,10 +21,8 @@ namespace Stock_Back.DAL.Controllers.UserControllers
                 response.Email = user.Email;
                 response.Password = user.Password;
                 response.Phone = user.Phone;
-
-                // Generar la hora actual en UTC
-                DateTime utcNow = DateTime.UtcNow; // Es más directo y recomendable usar DateTime.UtcNow
-                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); // Para sistemas Windows
+                DateTime utcNow = DateTime.UtcNow;
+                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); 
                 DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
                 response.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
 

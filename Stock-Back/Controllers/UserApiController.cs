@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Stock_Back.Controllers.UserApiControllers;
 using Stock_Back.DAL.Context;
-using Stock_Back.DAL.Models;
 using Stock_Back.BLL.Models.DTO;
 
 namespace Stock_Back.Controllers
