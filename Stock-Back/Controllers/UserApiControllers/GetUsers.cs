@@ -21,31 +21,27 @@ namespace Stock_Back.Controllers.UserApiControllers
             {
                 ResponseType type = ResponseType.Success; 
                 var userGetter = new GetUsersController(_context);
-                //Esta logica moverla a la capa de negocios
-                if (id == 0)
+                var user = await userGetter.GetUsers(id);
+                if (user == null)
                 {
-                    var users = await userGetter.GetAllUsers();
-                    if (users == null)
+                    type = ResponseType.NotFound;
+                    if(id == 0)
                     {
-                        type = ResponseType.NotFound;
+                        return NotFound(ResponseHandler.GetAppResponse(type, $"There are no users."));
+                    }
+                    else
+                    {
                         return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
                     }
-                    return Ok(ResponseHandler.GetAppResponse(type, users));
                 }
                 else
                 {
-                    var user = await userGetter.GetUserById(id);
-                    if (user == null)
-                    {
-                        type = ResponseType.NotFound;
-                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
-                    }
                     return Ok(ResponseHandler.GetAppResponse(type, user));
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); // Internal Server Error
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
             }
         }
     }

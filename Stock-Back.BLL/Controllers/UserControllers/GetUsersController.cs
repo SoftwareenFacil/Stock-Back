@@ -45,17 +45,25 @@ namespace Stock_Back.BLL.Controllers.UserControllers
         {
             var userGetter = new UserGetAll(_context);
             var users = await userGetter.GetAllUsers();
-            List<UserDTO> result = new List<UserDTO>();
-
-            users.ForEach(row => result.Add(new UserDTO()
+            
+            if(users != null)
             {
-                Id = row.Id,
-                Name = row.Name,
-                Email = row.Email,
-                Phone = row.Phone,
-                SuperAdmin = row.SuperAdmin
-            }));
-            return result;
+                List<UserDTO> result = new List<UserDTO>();
+                users.ForEach(row => result.Add(new UserDTO()
+                {
+                    Id = row.Id,
+                    Name = row.Name,
+                    Email = row.Email,
+                    Phone = row.Phone,
+                    SuperAdmin = row.SuperAdmin
+                }));
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
     }
