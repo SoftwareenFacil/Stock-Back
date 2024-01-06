@@ -30,11 +30,5 @@ namespace Stock_Back.UserJwt
             }
             return response;
         }
-        public static bool IsAdmin(string claim)
-        {
-            if (string.IsNullOrEmpty(claim))
-                return false;
-            return true;
-        }
     }
 }

@@ -5,8 +5,9 @@ using Stock_Back.BLL.Models.DTO;
 
 namespace Stock_Back.Controllers
 {
-
+    [SuperAdminRequired]
     [ApiController]
+    [Route("api/[controller]/[action]")]
     public class UserApiController : ControllerBase
     {
         private AppDbContext _context;
@@ -16,7 +17,6 @@ namespace Stock_Back.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/GetUsers/{id}")]
         public async Task<IActionResult> GetUsers(int id)
         {
             var userGetter = new GetUsers(_context);
@@ -24,30 +24,24 @@ namespace Stock_Back.Controllers
         }
 
         [HttpPost]
-        [Route("api/[controller]/InsertUser")]
         public async Task<IActionResult> InsertUser([FromBody] UserInsertDTO user)
         {
-            var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
             var add = new AddUser(_context);
-            return await add.InsertUser(user, isSuperAdmin);
+            return await add.InsertUser(user);
         }
 
         [HttpPut]
-        [Route("api/[controller]/UpdateUser")]
         public async Task<IActionResult> UpdateUser([FromBody] UserEditDTO userEdited)
         {
-            var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
             var updater = new UpdateUser(_context);
-            return await updater.Update(userEdited, isSuperAdmin);
+            return await updater.Update(userEdited);
         }
 
         [HttpDelete]
-        [Route("api/[controller]/DeleteUser/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var isSuperAdmin = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "SuperAdmin")?.Value;
             var deleter = new DeleteUser(_context);
-            return await deleter.Delete(id, isSuperAdmin);
+            return await deleter.Delete(id);
         }
     }
 }

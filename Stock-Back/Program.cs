@@ -22,7 +22,6 @@ namespace Stock_Back
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
             });
-
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors(options =>
@@ -59,7 +58,7 @@ namespace Stock_Back
                 app.UseSwaggerUI();
                 app.UseCors("MyAllowSpecificOrigins");
             }
-
+            app.UseExceptionHandler("/Error");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();

@@ -12,32 +12,26 @@ namespace Stock_Back.Controllers.UserApiControllers
         public GetUsers(AppDbContext dbContext)
         {
             _context = dbContext;
-            
+
         }
 
         public async Task<IActionResult> GetResponseUsers(int id)
         {
             try
             {
-                ResponseType type = ResponseType.Success; 
+                ResponseType type = ResponseType.Success;
                 var userGetter = new GetUsersController(_context);
                 var user = await userGetter.GetUsers(id);
                 if (user == null)
                 {
                     type = ResponseType.NotFound;
-                    if(id == 0)
-                    {
+                    if (id == 0)
                         return NotFound(ResponseHandler.GetAppResponse(type, $"There are no users."));
-                    }
-                    else
-                    {
-                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
-                    }
+                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
+
                 }
-                else
-                {
-                    return Ok(ResponseHandler.GetAppResponse(type, user));
-                }
+                return Ok(ResponseHandler.GetAppResponse(type, user));
+
             }
             catch (Exception ex)
             {

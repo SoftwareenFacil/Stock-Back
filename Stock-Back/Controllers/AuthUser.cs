@@ -5,7 +5,7 @@ using Stock_Back.UserJwt;
 using Stock_Back.BLL.Controllers.JwtControllers;
 using Stock_Back.DAL.Context;
 
-namespace Stock_Back.Controllers.LoginControllers
+namespace Stock_Back.Controllers
 {
     public class AuthUser : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace Stock_Back.Controllers.LoginControllers
                 return BadRequest(ResponseHandler.GetAppResponse(type, "Invalid Credentials."));
             }
             var loger = new AuthController(_context);
-            var token = await loger.Authenticate(_manejoJwt,credentials);
+            var token = await loger.Authenticate(_manejoJwt, credentials);
             if (token != null)
             {
                 type = ResponseType.Success;

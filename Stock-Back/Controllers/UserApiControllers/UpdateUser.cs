@@ -15,36 +15,29 @@ namespace Stock_Back.Controllers.UserApiControllers
             _context = context;
         }
 
-        public async Task<IActionResult> Update(UserEditDTO userEdited, string? isSuperAdminClaim)
+        public async Task<IActionResult> Update(UserEditDTO userEdited)
         {
-            if(bool.Parse(isSuperAdminClaim))
+            try
             {
-                try
-                {
-                    var userUpdater = new UpdateUsersController(_context);
-                    var type = await userUpdater.UpdateUser(userEdited);
+                var userUpdater = new UpdateUsersController(_context);
+                var type = await userUpdater.UpdateUser(userEdited);
 
-                    if (type == ResponseType.Success)
-                    {
-                        return Ok(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} updated."));
-                    } 
-                    else if(type == ResponseType.NotFound)
-                    {
-                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
-                    }
-                    else
-                    {
-                        return BadRequest(ResponseHandler.GetAppResponse(type, "The name, email or password fields were not included in the request."));
-                    }
-                }
-                catch (Exception ex)
+                if (type == ResponseType.Success)
                 {
-                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex)); 
+                    return Ok(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} updated."));
+                }
+                else if (type == ResponseType.NotFound)
+                {
+                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
+                }
+                else
+                {
+                    return BadRequest(ResponseHandler.GetAppResponse(type, "The name, email or password fields were not included in the request."));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return Forbid("No tienes permisos para insertar usuarios.");
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
             }
         }
     }

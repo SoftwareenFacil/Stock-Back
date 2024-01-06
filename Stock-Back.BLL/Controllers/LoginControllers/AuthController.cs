@@ -16,6 +16,7 @@ namespace Stock_Back.BLL.Controllers.LoginControllers
 
         public async Task<string?> Authenticate(IManejoJwt manejoJwt,UserCredentials credentials)
         {
+            //Remover uno de los metodos, generar GetUserByEmail
             var idGetter = new UserGetIdByEmail(_context);
             var userGetter = new UserGetById(_context);
             var userId = await idGetter.GetUserIdByEmail(credentials.Email);

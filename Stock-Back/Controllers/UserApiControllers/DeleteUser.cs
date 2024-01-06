@@ -14,30 +14,24 @@ namespace Stock_Back.Controllers.UserApiControllers
             _context = context;
         }
 
-        public async Task<IActionResult> Delete(int id, string? isSuperAdminClaim)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (bool.Parse(isSuperAdminClaim))
+
+            try
             {
-                try
+                ResponseType type = ResponseType.Success;
+                var deleter = new DeleteUsersController(_context);
+                var isDeleted = await deleter.DeleteUserById(id);
+                if (!isDeleted)
                 {
-                    ResponseType type = ResponseType.Success;
-                    var deleter = new DeleteUsersController(_context);
-                    var isDeleted = await deleter.DeleteUserById(id);
-                    if (!isDeleted)
-                    {
-                        type = ResponseType.NotFound;
-                        return NotFound(ResponseHandler.GetAppResponse(type, $"User with ID {id} not found."));
-                    }
-                    return Ok(ResponseHandler.GetAppResponse(type, $"User with ID {id} deleted successfully."));
+                    type = ResponseType.NotFound;
+                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with ID {id} not found."));
                 }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
-                }
+                return Ok(ResponseHandler.GetAppResponse(type, $"User with ID {id} deleted successfully."));
             }
-            else
+            catch (Exception ex)
             {
-                return Forbid("No tienes permisos para insertar usuarios.");
+                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
             }
         }
     }

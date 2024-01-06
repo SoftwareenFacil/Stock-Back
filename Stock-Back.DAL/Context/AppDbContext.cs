@@ -10,5 +10,6 @@ namespace Stock_Back.DAL.Context
 
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Client> Clients { get; set; }
     }
 }

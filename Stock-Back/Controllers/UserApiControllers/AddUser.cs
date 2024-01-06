@@ -16,10 +16,9 @@ namespace Stock_Back.Controllers.UserApiControllers
             _context = context;
         }
 
-        public async Task<IActionResult> InsertUser(UserInsertDTO user, string? isSuperAdminClaim)
+        public async Task<IActionResult> InsertUser(UserInsertDTO user)
         {
-            if (bool.Parse(isSuperAdminClaim))
-            {
+
                 try
                 {
                     ResponseType type = ResponseType.Failure;
@@ -44,10 +43,6 @@ namespace Stock_Back.Controllers.UserApiControllers
                     return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
                 }
             }
-            else
-            {
-                return Forbid("No tienes permisos para insertar usuarios.");
-            }
         }
     }
-}
+
