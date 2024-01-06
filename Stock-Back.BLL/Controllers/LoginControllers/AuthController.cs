@@ -1,5 +1,4 @@
 ﻿using Stock_Back.BLL.Models;
-using Stock_Back.DAL.Models;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Controllers.UserControllers;
 using Stock_Back.BLL.Controllers.JwtControllers;
@@ -21,7 +20,8 @@ namespace Stock_Back.BLL.Controllers.LoginControllers
             var userGetter = new UserGetById(_context);
             var userId = await idGetter.GetUserIdByEmail(credentials.Email);
             var user = await userGetter.GetUserById(userId);
-            if (user != null && user.Password == credentials.Password)
+            var hasher = new Hasher();
+            if (user != null && hasher.VerifyPassword(credentials.Password, user.Password))
             {
                 var token = manejoJwt.GenerarToken(user.Email, user.SuperAdmin);
                 return token;

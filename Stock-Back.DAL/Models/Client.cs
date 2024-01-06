@@ -12,7 +12,7 @@ namespace Stock_Back.DAL.Models
         public string Name { get; set; }
         [Required]
         public string Email { get; set; } 
-        public string Phone { get; set; }
+        public int Phone { get; set; }
         [Required]
         public string TaxID { get; set; }
         [Required]

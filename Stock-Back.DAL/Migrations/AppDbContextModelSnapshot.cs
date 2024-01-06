@@ -41,9 +41,8 @@ namespace Stock_Back.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Phone")
+                        .HasColumnType("integer");
 
                     b.Property<string>("TaxID")
                         .IsRequired()
@@ -80,9 +79,8 @@ namespace Stock_Back.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Phone")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("SuperAdmin")
                         .HasColumnType("boolean");
@@ -93,6 +91,19 @@ namespace Stock_Back.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Created = new DateTime(2024, 1, 6, 19, 33, 17, 812, DateTimeKind.Utc).AddTicks(4505),
+                            Email = "admin@admin.cl",
+                            Name = "",
+                            Password = "WP5OdgVxC39eESynFAvwi0BwheNyhXbVtkB32nfhn3MUyCUj",
+                            Phone = 0,
+                            SuperAdmin = true,
+                            Updated = new DateTime(2024, 1, 6, 19, 33, 17, 812, DateTimeKind.Utc).AddTicks(4506)
+                        });
                 });
 #pragma warning restore 612, 618
         }
