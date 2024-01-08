@@ -13,7 +13,7 @@ namespace Stock_Back.BLL.Controllers.UserControllers
         {
             _context = _dbContext;
         }
-
+        //TODO: remove Responsetype from BLL
         public async Task<ResponseType> UpdateUser(UserEditDTO userEdited)
         {
             var userVerify = new UserGetById(_context);

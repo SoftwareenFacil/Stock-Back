@@ -18,9 +18,11 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             user = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
             if (user != null)
             {
+                //TODO: check on all methods on database
                 _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
-                return true;
+                if (await _context.SaveChangesAsync() > 0)
+                    return true;
+
             }
             return false;
         }
