@@ -1,5 +1,5 @@
 ﻿using Stock_Back.DAL.Context;
-using Stock_Back.BLL.Models.DTO;
+using Stock_Back.BLL.Models.UserDTO;
 using Stock_Back.DAL.Controllers.UserControllers;
 
 namespace Stock_Back.BLL.Controllers.UserControllers

@@ -1,4 +1,4 @@
-﻿using Stock_Back.BLL.Models.DTO;
+﻿using Stock_Back.BLL.Models.UserDTO;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Controllers.UserControllers;
 using Stock_Back.DAL.Models;
