@@ -12,7 +12,7 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<User?> UpdateUser(User user)
+        public async Task<bool> UpdateUser(User user)
         {
             var response = await _context.Users.Where(userAux => userAux.Id.Equals(user.Id)).FirstOrDefaultAsync();
             if (response != null)
@@ -26,10 +26,11 @@ namespace Stock_Back.DAL.Controllers.UserControllers
                 DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
                 response.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
 
-                await _context.SaveChangesAsync();
+                if (await _context.SaveChangesAsync() > 0)
+                    return true;
 
             }
-            return response;
+            return false;
         }
     }
 }

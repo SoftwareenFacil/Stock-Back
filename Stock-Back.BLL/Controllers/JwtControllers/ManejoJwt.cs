@@ -15,10 +15,11 @@ namespace Stock_Back.BLL.Controllers.JwtControllers
             configuration = _configuration;
         }
 
-        public string GenerarToken(string email, bool superAdmin)
+        public string GenerarToken(string name, string email, bool superAdmin)
         {
             var claims = new List<Claim>
             {
+                new Claim("name", name),
                 new Claim("email", email),
                 new Claim("SuperAdmin", superAdmin.ToString())
             };

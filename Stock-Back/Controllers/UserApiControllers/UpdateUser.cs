@@ -19,21 +19,24 @@ namespace Stock_Back.Controllers.UserApiControllers
         {
             try
             {
+                ResponseType type = ResponseType.Failure;
                 var userUpdater = new UpdateUsersController(_context);
-                var type = await userUpdater.UpdateUser(userEdited);
+                var (isUpdated,isUser) = await userUpdater.UpdateUser(userEdited);
 
-                if (type == ResponseType.Success)
+                if (isUpdated == true)
                 {
+                    type = ResponseType.Success;
                     return Ok(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} updated."));
                 }
-                else if (type == ResponseType.NotFound)
+                
+                if (isUser == false)
                 {
+                    type = ResponseType.NotFound;
                     return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
                 }
-                else
-                {
-                    return BadRequest(ResponseHandler.GetAppResponse(type, "The name, email or password fields were not included in the request."));
-                }
+
+                return BadRequest(ResponseHandler.GetAppResponse(type, "Error trying to update database"));
+
             }
             catch (Exception ex)
             {

@@ -14,29 +14,28 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             _context = _dbContext;
         }
         //TODO: remove Responsetype from BLL
-        public async Task<ResponseType> UpdateUser(UserEditDTO userEdited)
+        public async Task<(bool, bool)> UpdateUser(UserEditDTO userEdited)
         {
+            bool isUpdated = false;
+            bool isUser = false;
+            if (string.IsNullOrWhiteSpace(userEdited.Name) && string.IsNullOrWhiteSpace(userEdited.Email) && string.IsNullOrWhiteSpace(userEdited.Password) && userEdited.Phone == 0)
+                return (isUpdated, isUser);
+
             var userVerify = new UserGetById(_context);
             var userUpdater = new UserUpdate(_context);
             var user = await userVerify.GetUserById(userEdited.Id);
-            if (user == null)
-                return ResponseType.NotFound;
+            if (user != null)
+            {
+                isUser = true;
+                user.Name = !string.IsNullOrEmpty(userEdited.Name) ? userEdited.Name : user.Name;
+                user.Email = !string.IsNullOrEmpty(userEdited.Email) ? userEdited.Email : user.Email;
+                user.Password = CheckifNewPassword(userEdited.Password, user.Password);
+                user.Phone = userEdited.Phone > 0 ? userEdited.Phone : user.Phone;
+                isUpdated = await userUpdater.UpdateUser(user);
 
-            if (string.IsNullOrWhiteSpace(userEdited.Name) && string.IsNullOrWhiteSpace(userEdited.Email) && string.IsNullOrWhiteSpace(userEdited.Password) && userEdited.Phone == 0)
-                return ResponseType.Failure;
-
-            user.Name = !string.IsNullOrEmpty(userEdited.Name) ? userEdited.Name : user.Name;
-            user.Email = !string.IsNullOrEmpty(userEdited.Email) ? userEdited.Email : user.Email;
-
-            user.Password = CheckifNewPassword(userEdited.Password, user.Password);
-
-            if (userEdited.Phone == 0)
-                user.Phone = userEdited.Phone;
-
-            var userUpdated = await userUpdater.UpdateUser(user);
-            if (userUpdated == null)
-                return ResponseType.Failure;
-            return ResponseType.Success;
+                return (isUpdated, isUser);
+            }
+            return (isUpdated, isUser);
         }
 
         private string CheckifNewPassword(string password, string userpassword)
