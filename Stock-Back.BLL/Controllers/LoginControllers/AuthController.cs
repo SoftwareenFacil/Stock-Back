@@ -15,15 +15,12 @@ namespace Stock_Back.BLL.Controllers.LoginControllers
 
         public async Task<string?> Authenticate(IManejoJwt manejoJwt,UserCredentials credentials)
         {
-            //Remover uno de los metodos, generar GetUserByEmail
-            var idGetter = new UserGetIdByEmail(_context);
-            var userGetter = new UserGetById(_context);
-            var userId = await idGetter.GetUserIdByEmail(credentials.Email);
-            var user = await userGetter.GetUserById(userId);
+            var userGetter = new UserGetByEmail(_context);
+            var user = await userGetter.GetUserByEmail(credentials.Email);
             var hasher = new Hasher();
             if (user != null && hasher.VerifyPassword(credentials.Password, user.Password))
             {
-                var token = manejoJwt.GenerarToken(user.Email, user.SuperAdmin);
+                var token = manejoJwt.GenerarToken(user.Name, user.Email, user.SuperAdmin);
                 return token;
             }
 

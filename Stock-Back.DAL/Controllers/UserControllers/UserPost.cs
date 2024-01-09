@@ -14,8 +14,10 @@ namespace Stock_Back.DAL.Controllers.UserControllers
         public async Task<bool> InsertUser(User user)
         {
             await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return true;
+
+            if(await _context.SaveChangesAsync() > 0)
+                return true;
+            return false;
         }
     }
 

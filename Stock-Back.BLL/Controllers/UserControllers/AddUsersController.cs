@@ -19,8 +19,8 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             var isUser = false;
             var userExist = false;
             User? userCreate = new User();
-            var idGetter = new UserGetIdByEmail(_context);
-            if (await idGetter.GetUserIdByEmail(user.Email) > 0)
+            var userSample = new UserGetByEmail(_context);
+            if (await userSample.GetUserByEmail(user.Email) != null)
             {
                 userExist = true;
                 return (isUser, userExist);
