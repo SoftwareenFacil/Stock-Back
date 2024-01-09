@@ -17,17 +17,7 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             var response = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
             if (response != null)
             {
-                return new User()
-                {
-                    Id = response.Id,
-                    Name = response.Name,
-                    Email = response.Email,
-                    Password = response.Password,
-                    Phone = response.Phone,
-                    Created = DateTime.Now.ToUniversalTime(),
-                    Updated = DateTime.Now.ToUniversalTime(),
-                    SuperAdmin = response.SuperAdmin
-                };
+                return response;
             }
 
             return response;

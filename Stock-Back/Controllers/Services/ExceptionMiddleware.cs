@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Stock_Back.Controllers
+namespace Stock_Back.Controllers.Services
 {
     public class ExceptionMiddleware
     {
@@ -34,7 +34,7 @@ namespace Stock_Back.Controllers
             return context.Response.WriteAsync(new ErrorDetails
             {
                 StatusCode = context.Response.StatusCode,
-                Message = "Internal Server Error from the custom middleware."
+                Message = "Internal Server Error"
             }.ToString());
         }
     }

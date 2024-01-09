@@ -11,13 +11,10 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<bool> InsertUser(User user)
+        public async Task<int> InsertUser(User user)
         {
             await _context.Users.AddAsync(user);
-
-            if(await _context.SaveChangesAsync() > 0)
-                return true;
-            return false;
+            return await _context.SaveChangesAsync();
         }
     }
 

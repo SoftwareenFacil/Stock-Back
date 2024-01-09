@@ -3,40 +3,33 @@ using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.UserJwt;
 using Stock_Back.DAL.Context;
 using Stock_Back.BLL.Models;
+using Stock_Back.Models;
+using Stock_Back.Controllers.Services;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
     public class GetUsers : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ResponseService _responseService;
         public GetUsers(AppDbContext dbContext)
         {
             _context = dbContext;
+            _responseService = new ResponseService();
 
         }
 
         public async Task<IActionResult> GetResponseUsers(int id)
         {
-            try
+            var userGetter = new GetUsersController(_context);
+            var user = await userGetter.GetUsers(id);
+            if (user == null)
             {
-                ResponseType type = ResponseType.Success;
-                var userGetter = new GetUsersController(_context);
-                var user = await userGetter.GetUsers(id);
-                if (user == null)
-                {
-                    type = ResponseType.NotFound;
-                    if (id == 0)
-                        return NotFound(ResponseHandler.GetAppResponse(type, $"There are no users."));
-                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {id} not found."));
-
-                }
-                return Ok(ResponseHandler.GetAppResponse(type, user));
+                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse(
+                id == 0 ? "There are no users." : $"User with id {id} not found."));
 
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
-            }
+            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse(user));
         }
     }
 }

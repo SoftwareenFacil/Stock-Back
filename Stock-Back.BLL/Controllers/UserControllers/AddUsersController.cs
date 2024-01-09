@@ -13,18 +13,15 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<(bool, bool)> AddUser(UserInsertDTO user)
+        public async Task<int> AddUser(UserInsertDTO user)
         {
-            var userCreator = new UserPost(_context);
-            var isUser = false;
-            var userExist = false;
-            User? userCreate = new User();
+
             var userSample = new UserGetByEmail(_context);
             if (await userSample.GetUserByEmail(user.Email) != null)
-            {
-                userExist = true;
-                return (isUser, userExist);
-            }
+                return -1;
+
+            var userCreator = new UserPost(_context);
+            var userCreate = new User();
             var hasher = new Hasher();
 
             userCreate.Name = user.Name;
@@ -32,15 +29,13 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             userCreate.Password = hasher.HashPassword(user.Password);
             userCreate.Phone = user.Phone;
 
-
             DateTime utcNow = DateTime.UtcNow;
             TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
             DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
 
             userCreate.Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
             userCreate.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
-            isUser = await userCreator.InsertUser(userCreate);
-            return (isUser, userExist);
+            return await userCreator.InsertUser(userCreate);
 
 
         }

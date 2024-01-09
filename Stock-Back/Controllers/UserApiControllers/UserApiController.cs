@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stock_Back.Controllers.UserApiControllers;
 using Stock_Back.DAL.Context;
 using Stock_Back.BLL.Models.DTO;
 
-namespace Stock_Back.Controllers
+namespace Stock_Back.Controllers.UserApiControllers
 {
     [SuperAdminRequired]
     [ApiController]
@@ -26,8 +25,8 @@ namespace Stock_Back.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertUser([FromBody] UserInsertDTO user)
         {
-            var add = new AddUser(_context);
-            return await add.InsertUser(user);
+            var add = new InsertUser(_context);
+            return await add.Insert(user);
         }
 
         [HttpPut]

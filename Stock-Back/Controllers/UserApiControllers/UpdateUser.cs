@@ -4,44 +4,31 @@ using Stock_Back.UserJwt;
 using Stock_Back.BLL.Models;
 using Stock_Back.BLL.Controllers.UserControllers;
 using Stock_Back.DAL.Context;
+using Stock_Back.Models;
+using Stock_Back.Controllers.Services;
 
 namespace Stock_Back.Controllers.UserApiControllers
 {
     public class UpdateUser : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ResponseService _responseService;
         public UpdateUser(AppDbContext context)
         {
             _context = context;
+            _responseService = new ResponseService();
         }
 
         public async Task<IActionResult> Update(UserEditDTO userEdited)
         {
-            try
-            {
-                ResponseType type = ResponseType.Failure;
-                var userUpdater = new UpdateUsersController(_context);
-                var (isUpdated,isUser) = await userUpdater.UpdateUser(userEdited);
+            var userUpdater = new UpdateUsersController(_context);
+            var (isUpdated, isUser) = await userUpdater.UpdateUser(userEdited);
 
-                if (isUpdated == true)
-                {
-                    type = ResponseType.Success;
-                    return Ok(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} updated."));
-                }
-                
-                if (isUser == false)
-                {
-                    type = ResponseType.NotFound;
-                    return NotFound(ResponseHandler.GetAppResponse(type, $"User with id {userEdited.Id} not found."));
-                }
-
-                return BadRequest(ResponseHandler.GetAppResponse(type, "Error trying to update database"));
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ResponseHandler.GetExceptionResponse(ex));
-            }
+            if (isUpdated)
+                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User with ID {userEdited.Id} updated."));
+            else if (!isUser)
+                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with ID {userEdited.Id} not found."));
+            return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to update User"));   
         }
     }
 }
