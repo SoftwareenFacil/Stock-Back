@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Stock_Back.BLL.Models.DTO;
+using Stock_Back.BLL.Models.UserDTO;
 using Stock_Back.UserJwt;
 using Stock_Back.BLL.Models;
 using Stock_Back.BLL.Controllers.UserControllers;
