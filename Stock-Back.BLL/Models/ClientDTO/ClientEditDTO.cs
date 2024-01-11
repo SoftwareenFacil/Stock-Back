@@ -12,5 +12,6 @@ namespace Stock_Back.BLL.Models.ClientDTO
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public int Phone { get; set; } = 0;
+        public string Address { get; set; } = string.Empty;
     }
 }

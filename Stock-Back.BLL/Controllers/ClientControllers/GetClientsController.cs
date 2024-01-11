@@ -34,7 +34,8 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
                     Id = client.Id,
                     Name = client.Name,
                     Email = client.Email,
-                    Phone = client.Phone
+                    Phone = client.Phone,
+                    Address = client.Address
                 };
             }
         }
@@ -52,7 +53,8 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
                     Id = row.Id,
                     Name = row.Name,
                     Email = row.Email,
-                    Phone = row.Phone
+                    Phone = row.Phone,
+                    Address = row.Address
                 }));
                 return result;
             }

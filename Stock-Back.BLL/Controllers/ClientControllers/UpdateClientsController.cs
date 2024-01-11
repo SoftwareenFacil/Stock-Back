@@ -16,7 +16,7 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
         {
             bool isUpdated = false;
             bool isClient = false;
-            if (string.IsNullOrWhiteSpace(clientEdited.Name) && string.IsNullOrWhiteSpace(clientEdited.Email) && clientEdited.Phone == 0)
+            if (string.IsNullOrWhiteSpace(clientEdited.Name) && string.IsNullOrWhiteSpace(clientEdited.Email) && clientEdited.Phone == 0 && string.IsNullOrWhiteSpace(clientEdited.Address))
                 return (isUpdated, isClient);
 
             var clientVerify = new ClientGetById(_context);
@@ -28,6 +28,7 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
                 client.Name = !string.IsNullOrEmpty(clientEdited.Name) ? clientEdited.Name : client.Name;
                 client.Email = !string.IsNullOrEmpty(clientEdited.Email) ? clientEdited.Email : client.Email;
                 client.Phone = clientEdited.Phone > 0 ? clientEdited.Phone : client.Phone;
+                client.Address = !string.IsNullOrEmpty(clientEdited.Address) ? clientEdited.Address : client.Address;
                 isUpdated = await clientUpdater.UpdateClient(client);
 
                 return (isUpdated, isClient);

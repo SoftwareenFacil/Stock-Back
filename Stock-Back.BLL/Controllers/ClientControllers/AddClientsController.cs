@@ -32,6 +32,7 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
                 Email = client.Email,
                 Phone = client.Phone,
                 Rut = "0",
+                Address = "",
                 Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc),
                 Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc)
             };
