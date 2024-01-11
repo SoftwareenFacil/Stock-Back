@@ -12,7 +12,7 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
             _context = _dbContext;
         }
 
-        public async Task<(bool, bool)> UpdateClient(ClientDTO clientEdited)
+        public async Task<(bool, bool)> UpdateClient(ClientEditDTO clientEdited)
         {
             bool isUpdated = false;
             bool isClient = false;

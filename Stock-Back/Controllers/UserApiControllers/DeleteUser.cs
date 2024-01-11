@@ -24,10 +24,10 @@ namespace Stock_Back.Controllers.UserApiControllers
             var isDeleted = await deleter.DeleteUserById(id);
             if (!isDeleted)
             {
-                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with id {id} not found."));
+                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with id {id} not found"));
 
             }
-            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User with ID {id} deleted successfully."));
+            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User with ID {id} deleted successfully", "Delete completed"));
 
         }
     }

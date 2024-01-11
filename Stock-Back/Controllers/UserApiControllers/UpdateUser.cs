@@ -25,9 +25,9 @@ namespace Stock_Back.Controllers.UserApiControllers
             var (isUpdated, isUser) = await userUpdater.UpdateUser(userEdited);
 
             if (isUpdated)
-                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User with ID {userEdited.Id} updated."));
+                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User with ID {userEdited.Id} updated", "Update completed"));
             else if (!isUser)
-                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with ID {userEdited.Id} not found."));
+                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with ID {userEdited.Id} not found"));
             return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to update User"));   
         }
     }

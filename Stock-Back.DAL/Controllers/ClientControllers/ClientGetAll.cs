@@ -12,21 +12,14 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
             _context = _dbContext;
         }
 
-        public async Task<List<Client>> GetAllClients()
+        public async Task<List<Client>?> GetAllClients()
         {
-            List<Client> clients = new List<Client>();
-            var dataList = await _context.Clients.Take(100).ToListAsync();
-            dataList.ForEach(row => clients.Add(new Client()
+            var clients = await _context.Clients.Take(100).ToListAsync();
+            if (clients.Any())
             {
-                Id = row.Id,
-                Name = row.Name,
-                Email = row.Email,
-                Phone = row.Phone,
-                TaxID = row.TaxID,
-                Created = row.Created,
-                Updated = row.Updated
-            }));
-            return clients;
+                return clients;
+            }
+            return null;
         }
     }
 }

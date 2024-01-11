@@ -12,7 +12,7 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<dynamic> GetUsers(int id)
+        public async Task<dynamic?> GetUsers(int id)
         {
             if(id == 0)
                 return await GetAllUsers();
@@ -40,7 +40,7 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             }
         }
 
-        public async Task<List<UserDTO>> GetAllUsers()
+        public async Task<List<UserDTO>?> GetAllUsers()
         {
             var userGetter = new UserGetAll(_context);
             var users = await userGetter.GetAllUsers();

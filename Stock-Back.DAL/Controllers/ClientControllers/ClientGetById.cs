@@ -15,11 +15,6 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
         public async Task<Client?> GetClientById(int id)
         {
             var response = await _context.Clients.Where(clientAux => clientAux.Id.Equals(id)).FirstOrDefaultAsync();
-            if (response != null)
-            {
-                return response;
-            }
-
             return response;
         }
     }

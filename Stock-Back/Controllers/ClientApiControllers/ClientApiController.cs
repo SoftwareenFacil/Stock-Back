@@ -30,7 +30,7 @@ namespace Stock_Back.Controllers.ClientApiControllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateClient([FromBody] ClientDTO clientEdited)
+        public async Task<IActionResult> UpdateClient([FromBody] ClientEditDTO clientEdited)
         {
             var updater = new UpdateClient(_context);
             return await updater.Update(clientEdited);

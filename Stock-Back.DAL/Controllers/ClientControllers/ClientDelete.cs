@@ -14,15 +14,10 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
 
         public async Task<bool> DeleteClient(int id)
         {
-            Client? client = new Client();
-            client = await _context.Clients.Where(clientAux => clientAux.Id.Equals(id)).FirstOrDefaultAsync();
-            if (client != null)
-            {
-                //TODO: check on all methods on database //  nvargas: BLL is cheking the object life, its redundant
-                _context.Clients.Remove(client);
-                if (await _context.SaveChangesAsync() > 0)
-                    return true;
-
+            var client = await _context.Clients.Where(clientAux => clientAux.Id.Equals(id)).FirstOrDefaultAsync();
+            _context.Clients.Remove(client);
+            if (await _context.SaveChangesAsync() > 0) { 
+                return true;
             }
             return false;
         }

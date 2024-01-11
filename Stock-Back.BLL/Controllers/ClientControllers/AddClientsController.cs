@@ -2,6 +2,8 @@
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Controllers.ClientControllers;
 using Stock_Back.DAL.Models;
+using System.Numerics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Stock_Back.BLL.Controllers.ClientControllers
 {
@@ -20,20 +22,20 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
             if (await clientGetter.GetClientByEmail(client.Email) != null)
                 return -1;
 
-            var clientCreator = new ClientPost(_context);
-            var clientCreate = new Client();
-
-            clientCreate.Name = client.Name;
-            clientCreate.Email = client.Email;
-            clientCreate.Phone = client.Phone;
-            clientCreate.TaxID = "0";
-
             DateTime utcNow = DateTime.UtcNow;
             TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
             DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
-
-            clientCreate.Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
-            clientCreate.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
+            var clientCreator = new ClientPost(_context);
+            var clientCreate = new Client()
+            {
+                Name = client.Name,
+                Email = client.Email,
+                Phone = client.Phone,
+                Rut = "0",
+                Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc),
+                Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc)
+            };
+            
             return await clientCreator.InsertClient(clientCreate);
 
         }
