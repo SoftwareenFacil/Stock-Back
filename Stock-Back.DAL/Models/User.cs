@@ -15,5 +15,6 @@ namespace Stock_Back.DAL.Models
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public bool SuperAdmin { get; set; }
+        public bool Vigency { get; set; }
     }
 }

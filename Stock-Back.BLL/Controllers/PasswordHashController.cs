@@ -9,9 +9,7 @@ namespace Stock_Back.BLL.Controllers
         {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-
-            // Reduced iteration count for faster processing
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000); // Reduced from 10000 to 1000
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000); 
             byte[] hash = pbkdf2.GetBytes(20);
 
             byte[] hashBytes = new byte[36];
@@ -27,7 +25,7 @@ namespace Stock_Back.BLL.Controllers
             byte[] salt = new byte[16];
             Array.Copy(hashBytes, 0, salt, 0, 16);
 
-            var pbkdf2 = new Rfc2898DeriveBytes(enteredPassword, salt, 1000); // Same reduced iteration count
+            var pbkdf2 = new Rfc2898DeriveBytes(enteredPassword, salt, 1000); 
             byte[] hash = pbkdf2.GetBytes(20);
 
             for (int i = 0; i < 20; i++)

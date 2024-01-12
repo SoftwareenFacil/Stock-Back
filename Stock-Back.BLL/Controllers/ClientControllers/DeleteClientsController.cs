@@ -14,7 +14,7 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
         public async Task<bool> DeleteClientById(int id)
         {
             var clientVerify = new ClientGetById(_context);
-            var exist = clientVerify.GetClientById(id);
+            var exist = await clientVerify.GetClientById(id);
             if (exist == null)
             {
                 return false;

@@ -16,11 +16,9 @@ namespace Stock_Back.DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Example user seed
             var adminUser = new User
             {
-                Id = 1, // or some other identifier
+                Id = 1,
                 Email = "admin@admin.cl",
                 Password = HashPassword("admin1234"),
                 SuperAdmin = true,
@@ -34,9 +32,7 @@ namespace Stock_Back.DAL.Context
         {
             byte[] salt;
             new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-
-            // Reduced iteration count for faster processing
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000); // Reduced from 10000 to 1000
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1000); 
             byte[] hash = pbkdf2.GetBytes(20);
 
             byte[] hashBytes = new byte[36];

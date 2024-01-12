@@ -14,15 +14,11 @@ namespace Stock_Back.DAL.Controllers.UserControllers
 
         public async Task<bool> DeleteUser(int id)
         {
-            User? user = new User();
-            user = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
-            if (user != null)
+            var user = await _context.Users.Where(userAux => userAux.Id.Equals(id)).FirstOrDefaultAsync();
+            _context.Users.Remove(user);
+            if (await _context.SaveChangesAsync() > 0)
             {
-                //TODO: check on all methods on database
-                _context.Users.Remove(user);
-                if (await _context.SaveChangesAsync() > 0)
-                    return true;
-
+                return true;
             }
             return false;
         }

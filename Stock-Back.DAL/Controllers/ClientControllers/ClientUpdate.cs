@@ -19,6 +19,7 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
                 response.Name = client.Name;
                 response.Email = client.Email;
                 response.Phone = client.Phone;
+                response.TaxId = client.TaxId;
                 DateTime utcNow = DateTime.UtcNow;
                 TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
                 DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);

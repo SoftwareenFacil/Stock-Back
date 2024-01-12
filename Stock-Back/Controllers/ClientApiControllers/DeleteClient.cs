@@ -22,10 +22,10 @@ namespace Stock_Back.Controllers.ClientApiControllers
             var isDeleted = await deleter.DeleteClientById(id);
             if (!isDeleted)
             {
-                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"Client with id {id} not found."));
+                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"Client with id {id} not found"));
 
             }
-            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with ID {id} deleted successfully."));
+            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with ID {id} deleted successfully", "Delete completed"));
 
         }
     }

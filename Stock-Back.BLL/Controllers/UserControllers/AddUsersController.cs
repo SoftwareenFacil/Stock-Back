@@ -1,7 +1,10 @@
-﻿using Stock_Back.BLL.Models.UserDTO;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Stock_Back.BLL.Models.UserDTO;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Controllers.UserControllers;
 using Stock_Back.DAL.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Numerics;
 
 namespace Stock_Back.BLL.Controllers.UserControllers
 {
@@ -20,21 +23,23 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             if (await userSample.GetUserByEmail(user.Email) != null)
                 return -1;
 
-            var userCreator = new UserPost(_context);
-            var userCreate = new User();
-            var hasher = new Hasher();
-
-            userCreate.Name = user.Name;
-            userCreate.Email = user.Email;
-            userCreate.Password = hasher.HashPassword(user.Password);
-            userCreate.Phone = user.Phone;
-
             DateTime utcNow = DateTime.UtcNow;
             TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
             DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
 
-            userCreate.Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
-            userCreate.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
+            var userCreator = new UserPost(_context);
+            var hasher = new Hasher();
+            var userCreate = new User()
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Password = hasher.HashPassword(user.Password),
+                Phone = user.Phone,
+                Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc),
+                Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc)
+            };
+
+            
             return await userCreator.InsertUser(userCreate);
 
 
