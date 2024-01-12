@@ -12,14 +12,10 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
             _context = _dbContext;
         }
 
-        public async Task<List<Client>?> GetAllClients()
+        public async Task<List<Client>> GetAllClients()
         {
             var clients = await _context.Clients.Take(100).ToListAsync();
-            if (clients.Any())
-            {
-                return clients;
-            }
-            return null;
+            return clients;
         }
     }
 }

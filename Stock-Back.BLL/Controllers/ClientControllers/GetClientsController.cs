@@ -12,7 +12,7 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
             _context = _dbContext;
         }
 
-        public async Task<dynamic> GetClients(int id)
+        public async Task<dynamic?> GetClients(int id)
         {
             if (id == 0)
                 return await GetAllClients();
@@ -40,12 +40,12 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
             }
         }
 
-        public async Task<List<ClientDTO>> GetAllClients()
+        public async Task<List<ClientDTO>?> GetAllClients()
         {
             var clientGetter = new ClientGetAll(_context);
             var clients = await clientGetter.GetAllClients();
 
-            if (clients != null)
+            if (clients.Count() > 0)
             {
                 List<ClientDTO> result = new List<ClientDTO>();
                 clients.ForEach(row => result.Add(new ClientDTO()
@@ -53,6 +53,7 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
                     Id = row.Id,
                     Name = row.Name,
                     Email = row.Email,
+                    TaxId = row.TaxId,
                     Phone = row.Phone,
                     Address = row.Address
                 }));

@@ -12,14 +12,10 @@ namespace Stock_Back.DAL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<List<User>?> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
             var users = await _context.Users.Take(100).ToListAsync();
-            if (users.Any())
-            {
-                return users;
-            }
-            return null;
+            return users;
         }
 
     }

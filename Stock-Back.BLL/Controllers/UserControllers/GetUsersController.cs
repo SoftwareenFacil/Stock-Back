@@ -45,7 +45,7 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             var userGetter = new UserGetAll(_context);
             var users = await userGetter.GetAllUsers();
             
-            if(users != null)
+            if(users.Count() > 0)
             {
                 List<UserDTO> result = new List<UserDTO>();
                 users.ForEach(row => result.Add(new UserDTO()

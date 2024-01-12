@@ -12,7 +12,7 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
             _context = _dbContext;
         }
 
-        public async Task<Client?> GetClientById(int id)
+        public async Task<Client> GetClientById(int id)
         {
             var response = await _context.Clients.Where(clientAux => clientAux.Id.Equals(id)).FirstOrDefaultAsync();
             return response;

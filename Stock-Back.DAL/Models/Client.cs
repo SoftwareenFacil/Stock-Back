@@ -15,7 +15,7 @@ namespace Stock_Back.DAL.Models
         public int Phone { get; set; }
         public string Address { get; set; }
         [Required]
-        public string Rut { get; set; }
+        public string TaxId { get; set; }
         [Required]
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
