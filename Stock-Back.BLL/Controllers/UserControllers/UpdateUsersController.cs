@@ -1,7 +1,8 @@
 ﻿using Stock_Back.DAL.Context;
 using Stock_Back.BLL.Models;
-using Stock_Back.BLL.Models.DTO;
+using Stock_Back.BLL.Models.UserDTO;
 using Stock_Back.DAL.Controllers.UserControllers;
+using Stock_Back.DAL.Models;
 
 namespace Stock_Back.BLL.Controllers.UserControllers
 {
@@ -12,49 +13,39 @@ namespace Stock_Back.BLL.Controllers.UserControllers
         {
             _context = _dbContext;
         }
-
-        public async Task<ResponseType> UpdateUser(UserEditDTO userEdited)
+        public async Task<(bool, bool)> UpdateUser(UserEditDTO userEdited)
         {
+            bool isUpdated = false;
+            bool isUser = false;
+            if (string.IsNullOrWhiteSpace(userEdited.Name) && string.IsNullOrWhiteSpace(userEdited.Email) && string.IsNullOrWhiteSpace(userEdited.Password) && userEdited.Phone == 0)
+                return (isUpdated, isUser);
+
             var userVerify = new UserGetById(_context);
             var userUpdater = new UserUpdate(_context);
             var user = await userVerify.GetUserById(userEdited.Id);
-            if(user == null)
+            if (user != null)
             {
-                return ResponseType.NotFound;
-            }
+                isUser = true;
+                user.Name = !string.IsNullOrEmpty(userEdited.Name) ? userEdited.Name : user.Name;
+                user.Email = !string.IsNullOrEmpty(userEdited.Email) ? userEdited.Email : user.Email;
+                user.Password = CheckifNewPassword(userEdited.Password, user.Password);
+                user.Phone = userEdited.Phone > 0 ? userEdited.Phone : user.Phone;
+                isUpdated = await userUpdater.UpdateUser(user);
 
-            if (string.IsNullOrWhiteSpace(userEdited.Name) && string.IsNullOrWhiteSpace(userEdited.Email) && string.IsNullOrWhiteSpace(userEdited.Password) && string.IsNullOrWhiteSpace(userEdited.Phone))
-            {
-                return ResponseType.Failure;
+                return (isUpdated, isUser);
             }
+            return (isUpdated, isUser);
+        }
 
-            if (!string.IsNullOrWhiteSpace(userEdited.Name))
+        private string CheckifNewPassword(string password, string userpassword)
+        {
+            if (!string.IsNullOrEmpty(password))
             {
-                user.Name = userEdited.Name;
+                var hasher = new Hasher();
+                return hasher.HashPassword(password);
             }
+            return userpassword;
 
-            if (!string.IsNullOrWhiteSpace(userEdited.Email))
-            {
-                user.Email = userEdited.Email;
-            }
-
-            if (!string.IsNullOrWhiteSpace(userEdited.Phone))
-            {
-                user.Phone = userEdited.Phone;
-            }
-
-            if (!string.IsNullOrWhiteSpace(userEdited.Password))
-            {
-                user.Password = userEdited.Password;
-            }
-
-            var userUpdated = await userUpdater.UpdateUser(user);
-            if(userUpdated == null)
-            {
-                return ResponseType.Failure;
-            }
-            
-            return ResponseType.Success;
         }
     }
 }

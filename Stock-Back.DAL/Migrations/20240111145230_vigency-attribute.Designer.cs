@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stock_Back.DAL.Context;
@@ -11,9 +12,11 @@ using Stock_Back.DAL.Context;
 namespace Stock_Back.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240111145230_vigency-attribute")]
+    partial class vigencyattribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace Stock_Back.DAL.Migrations
                     b.Property<int>("Phone")
                         .HasColumnType("integer");
 
-                    b.Property<string>("TaxId")
+                    b.Property<string>("Rut")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -106,13 +109,13 @@ namespace Stock_Back.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2024, 1, 12, 14, 0, 47, 966, DateTimeKind.Utc).AddTicks(4624),
+                            Created = new DateTime(2024, 1, 11, 14, 52, 30, 16, DateTimeKind.Utc).AddTicks(9464),
                             Email = "admin@admin.cl",
                             Name = "",
-                            Password = "edqLdBGePsLt3U5N10FX235bPq+UNd/HWqUZKS4PC8UztDnn",
+                            Password = "q8StP6cPfMLCCr4O8iKMcKU6K2U2E6j3WJsjO4JjPLUNeBk2",
                             Phone = 0,
                             SuperAdmin = true,
-                            Updated = new DateTime(2024, 1, 12, 14, 0, 47, 966, DateTimeKind.Utc).AddTicks(4626),
+                            Updated = new DateTime(2024, 1, 11, 14, 52, 30, 16, DateTimeKind.Utc).AddTicks(9465),
                             Vigency = false
                         });
                 });

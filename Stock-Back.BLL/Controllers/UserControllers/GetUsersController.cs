@@ -1,5 +1,5 @@
 ﻿using Stock_Back.DAL.Context;
-using Stock_Back.BLL.Models.DTO;
+using Stock_Back.BLL.Models.UserDTO;
 using Stock_Back.DAL.Controllers.UserControllers;
 
 namespace Stock_Back.BLL.Controllers.UserControllers
@@ -12,7 +12,7 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<dynamic> GetUsers(int id)
+        public async Task<dynamic?> GetUsers(int id)
         {
             if(id == 0)
                 return await GetAllUsers();
@@ -40,12 +40,12 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             }
         }
 
-        public async Task<List<UserDTO>> GetAllUsers()
+        public async Task<List<UserDTO>?> GetAllUsers()
         {
             var userGetter = new UserGetAll(_context);
             var users = await userGetter.GetAllUsers();
             
-            if(users != null)
+            if(users.Count() > 0)
             {
                 List<UserDTO> result = new List<UserDTO>();
                 users.ForEach(row => result.Add(new UserDTO()

@@ -2,27 +2,26 @@
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Models;
 
-namespace Stock_Back.DAL.Controllers.UserControllers
+namespace Stock_Back.DAL.Controllers.ClientControllers
 {
-    public class UserUpdate
+    public class ClientUpdate
     {
         private AppDbContext _context;
-        public UserUpdate(AppDbContext _dbContext)
+        public ClientUpdate(AppDbContext _dbContext)
         {
             _context = _dbContext;
         }
-
-        public async Task<bool> UpdateUser(User user)
+        public async Task<bool> UpdateClient(Client client)
         {
-            var response = await _context.Users.Where(userAux => userAux.Id.Equals(user.Id)).FirstOrDefaultAsync();
+            var response = await _context.Clients.Where(clientAux => clientAux.Id.Equals(client.Id)).FirstOrDefaultAsync();
             if (response != null)
             {
-                response.Name = user.Name;
-                response.Email = user.Email;
-                response.Password = user.Password;
-                response.Phone = user.Phone;
+                response.Name = client.Name;
+                response.Email = client.Email;
+                response.Phone = client.Phone;
+                response.TaxId = client.TaxId;
                 DateTime utcNow = DateTime.UtcNow;
-                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); 
+                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
                 DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
                 response.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
 

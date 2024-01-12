@@ -1,7 +1,10 @@
-﻿using Stock_Back.BLL.Models.DTO;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Stock_Back.BLL.Models.UserDTO;
 using Stock_Back.DAL.Context;
 using Stock_Back.DAL.Controllers.UserControllers;
 using Stock_Back.DAL.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Numerics;
 
 namespace Stock_Back.BLL.Controllers.UserControllers
 {
@@ -13,40 +16,33 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<(bool, bool)> AddUser(UserInsertDTO user)
+        public async Task<int> AddUser(UserInsertDTO user)
         {
+
+            var userSample = new UserGetByEmail(_context);
+            if (await userSample.GetUserByEmail(user.Email) != null)
+                return -1;
+
+            DateTime utcNow = DateTime.UtcNow;
+            TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
+            DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
+
             var userCreator = new UserPost(_context);
-            var isUser = false;
-            var userExist = false;
-            User? userCreate = new User();
-            if (!string.IsNullOrWhiteSpace(user.Name) &&
-                !string.IsNullOrWhiteSpace(user.Email) &&
-                !string.IsNullOrWhiteSpace(user.Password) &&
-                !string.IsNullOrWhiteSpace(user.Phone))
+            var hasher = new Hasher();
+            var userCreate = new User()
             {
-                var idGetter = new UserGetIdByEmail(_context);
-                if(await idGetter.GetUserIdByEmail(user.Email) > 0)
-                {
-                    userExist = true;
-                    return (isUser, userExist);
-                }
-                userCreate.Name = user.Name;
-                userCreate.Email = user.Email;
-                userCreate.Password = user.Password;
-                userCreate.Phone = user.Phone;
+                Name = user.Name,
+                Email = user.Email,
+                Password = hasher.HashPassword(user.Password),
+                Phone = user.Phone,
+                Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc),
+                Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc)
+            };
 
-                
-                DateTime utcNow = DateTime.UtcNow; 
-                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time"); 
-                DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
-
-                userCreate.Created = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
-                userCreate.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
-                isUser = await userCreator.InsertUser(userCreate);
-                return (isUser, userExist);
-            }
             
-            return (isUser, userExist);
+            return await userCreator.InsertUser(userCreate);
+
+
         }
     }
 }

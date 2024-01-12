@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Stock_Back.DAL.Context;
@@ -11,9 +12,11 @@ using Stock_Back.DAL.Context;
 namespace Stock_Back.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240106193317_InitialUsers")]
+    partial class InitialUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,10 +33,6 @@ namespace Stock_Back.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -48,15 +47,12 @@ namespace Stock_Back.DAL.Migrations
                     b.Property<int>("Phone")
                         .HasColumnType("integer");
 
-                    b.Property<string>("TaxId")
+                    b.Property<string>("TaxID")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Vigency")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -95,9 +91,6 @@ namespace Stock_Back.DAL.Migrations
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Vigency")
-                        .HasColumnType("boolean");
-
                     b.HasKey("Id");
 
                     b.ToTable("users");
@@ -106,14 +99,13 @@ namespace Stock_Back.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2024, 1, 12, 14, 0, 47, 966, DateTimeKind.Utc).AddTicks(4624),
+                            Created = new DateTime(2024, 1, 6, 19, 33, 17, 812, DateTimeKind.Utc).AddTicks(4505),
                             Email = "admin@admin.cl",
                             Name = "",
-                            Password = "edqLdBGePsLt3U5N10FX235bPq+UNd/HWqUZKS4PC8UztDnn",
+                            Password = "WP5OdgVxC39eESynFAvwi0BwheNyhXbVtkB32nfhn3MUyCUj",
                             Phone = 0,
                             SuperAdmin = true,
-                            Updated = new DateTime(2024, 1, 12, 14, 0, 47, 966, DateTimeKind.Utc).AddTicks(4626),
-                            Vigency = false
+                            Updated = new DateTime(2024, 1, 6, 19, 33, 17, 812, DateTimeKind.Utc).AddTicks(4506)
                         });
                 });
 #pragma warning restore 612, 618
