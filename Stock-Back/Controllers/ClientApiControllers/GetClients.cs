@@ -25,7 +25,7 @@ namespace Stock_Back.Controllers.ClientApiControllers
                 id == 0 ? "There are no clients." : $"Client with id {id} not found."));
 
             }
-            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse(client));
+            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse(client, "Success when searching for clients"));
         }
     }
 }

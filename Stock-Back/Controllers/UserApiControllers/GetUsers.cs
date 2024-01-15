@@ -26,10 +26,10 @@ namespace Stock_Back.Controllers.UserApiControllers
             if (user == null)
             {
                 return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse(
-                id == 0 ? "There are no users." : $"User with id {id} not found."));
+                id == 0 ? "There are no users" : $"User with id {id} not found"));
 
             }
-            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse(user));
+            return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse(user, "Success when searching for users"));
         }
     }
 }

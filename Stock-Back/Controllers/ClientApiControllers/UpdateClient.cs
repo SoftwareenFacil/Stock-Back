@@ -17,13 +17,13 @@ namespace Stock_Back.Controllers.ClientApiControllers
             _responseService = new ResponseService();
         }
 
-        public async Task<IActionResult> Update(ClientDTO clientEdited)
+        public async Task<IActionResult> Update(ClientEditDTO clientEdited)
         {
             var clientUpdater = new UpdateClientsController(_context);
             var (isUpdated, isClient) = await clientUpdater.UpdateClient(clientEdited);
 
             if (isUpdated)
-                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with ID {clientEdited.Id} updated."));
+                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with ID {clientEdited.Id} updated","Update completed"));
             else if (!isClient)
                 return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with ID {clientEdited.Id} not found."));
             return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to update User"));

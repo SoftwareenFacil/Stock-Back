@@ -26,7 +26,7 @@ namespace Stock_Back.Controllers.UserApiControllers
             var dataModified = await userCreator.AddUser(user);
 
             if (dataModified > 0)
-                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User created succesfully"));
+                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User created succesfully", "Create completed"));
             else if (dataModified < 0)
                 return _responseService.CreateResponse(ApiResponse<object>.BadRequest(user, $"User with Email {user.Email} already exists"));
             return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to Insert User"));

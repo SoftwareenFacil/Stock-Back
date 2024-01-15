@@ -14,18 +14,7 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
 
         public async Task<List<Client>> GetAllClients()
         {
-            List<Client> clients = new List<Client>();
-            var dataList = await _context.Clients.Take(100).ToListAsync();
-            dataList.ForEach(row => clients.Add(new Client()
-            {
-                Id = row.Id,
-                Name = row.Name,
-                Email = row.Email,
-                Phone = row.Phone,
-                TaxID = row.TaxID,
-                Created = row.Created,
-                Updated = row.Updated
-            }));
+            var clients = await _context.Clients.Take(100).ToListAsync();
             return clients;
         }
     }

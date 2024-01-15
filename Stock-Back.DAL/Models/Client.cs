@@ -13,10 +13,12 @@ namespace Stock_Back.DAL.Models
         [Required]
         public string Email { get; set; } 
         public int Phone { get; set; }
+        public string Address { get; set; }
         [Required]
-        public string TaxID { get; set; }
+        public string TaxId { get; set; }
         [Required]
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
+        public bool Vigency { get; set; }
     }
 }
