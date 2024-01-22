@@ -11,8 +11,6 @@ ENV PATH="$PATH:/root/.dotnet/tools"
 # Generate migration script
 RUN dotnet ef --project ./Stock-Back.DAL --startup-project ./Stock-Back \
 migrations add InitialCreate
-RUN dotnet ef --project ./Stock-Back.DAL --startup-project ./Stock-Back \
-database update
 
 WORKDIR /app
 RUN dotnet restore
