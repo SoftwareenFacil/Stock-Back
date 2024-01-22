@@ -10,9 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env: 
-      DOCKER_USERNAME: sebastianolivares 
-      DOCKER_PASSWORD: dckr_pat__U8JJbyFLBgiuTBZ9bSlU_ipRLE 
-      IMAGE_NAME: backend-app 
+      IMAGE_NAME: backend-app
 
     steps:
       - name: Checkout Repository
