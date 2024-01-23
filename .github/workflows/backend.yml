@@ -43,7 +43,7 @@ jobs:
             echo "Container deployed"
   migration:
     runs-on: ubuntu-latest
-    needs: build
+    needs: deploy
     steps:
       - name: Migrate to Postgres
         uses: appleboy/ssh-action@v1.0.3
@@ -53,7 +53,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             cd ~
-            mkdir ./script
             docker cp backend:/app/script/script.sql ./script/script.sql
             psql -U postgres -d legalcont -f ./script/script.sql 
             echo "DB restored"
