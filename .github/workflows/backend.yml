@@ -38,7 +38,7 @@ jobs:
           script: |
             cd ~
             docker-compose -f docker-compose.backend.yml down
-            docker-compose -f docker-compose.backtend.yml pull
+            docker-compose -f docker-compose.backend.yml pull
             docker-compose -f docker-compose.backend.yml up -d
             echo "Container deployed"
   migration:
