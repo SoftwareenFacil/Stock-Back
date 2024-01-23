@@ -53,7 +53,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             cd ~
-            docker cp backend:/app/script/script.sql ./script
+            docker cp backend:/app/script ./script
             psql -U postgres -d legalcont -f ./script/script.sql 
             echo "DB restored"
   
