@@ -54,6 +54,8 @@ jobs:
           script: |
             cd ~
             docker cp backend:/app/script/script.sql ./script/script.sql
+            dropdb -U postgres legalcont
+            createdb -U postgres legalcont
             psql -U postgres -d legalcont -f ./script/script.sql 
             echo "DB restored"
   
