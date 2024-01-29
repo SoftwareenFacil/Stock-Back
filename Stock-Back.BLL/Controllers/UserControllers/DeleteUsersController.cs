@@ -15,7 +15,7 @@ namespace Stock_Back.BLL.Controllers.UserControllers
         public async Task<bool> DeleteUserById(int id)
         {
             var userVerify = new UserGetById(_context);
-            var exist =  await userVerify.GetUserById(id);
+            var exist = await userVerify.GetUserById(id);
             if (exist == null)
             {
                 return false;

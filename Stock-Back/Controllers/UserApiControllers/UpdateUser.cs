@@ -22,13 +22,17 @@ namespace Stock_Back.Controllers.UserApiControllers
         public async Task<IActionResult> Update(UserEditDTO userEdited)
         {
             var userUpdater = new UpdateUsersController(_context);
-            var (isUpdated, isUser) = await userUpdater.UpdateUser(userEdited);
+            var code = await userUpdater.UpdateUser(userEdited);
 
-            if (isUpdated)
-                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User with ID {userEdited.Id} updated", "Update completed"));
-            else if (!isUser)
-                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with ID {userEdited.Id} not found"));
-            return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to update User"));   
+            switch (code)
+            {
+                case 200:
+                    return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"User with ID {userEdited.Id} updated", "Update completed"));
+                case 404:
+                    return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with ID {userEdited.Id} not found"));
+                default:
+                    return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to update User"));
+            }
         }
     }
 }

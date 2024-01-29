@@ -20,13 +20,17 @@ namespace Stock_Back.Controllers.ClientApiControllers
         public async Task<IActionResult> Update(ClientEditDTO clientEdited)
         {
             var clientUpdater = new UpdateClientsController(_context);
-            var (isUpdated, isClient) = await clientUpdater.UpdateClient(clientEdited);
+            var code = await clientUpdater.UpdateClient(clientEdited);
 
-            if (isUpdated)
-                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with ID {clientEdited.Id} updated","Update completed"));
-            else if (!isClient)
-                return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"User with ID {clientEdited.Id} not found."));
-            return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to update User"));
+            switch (code)
+            {
+                case 200:
+                    return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with ID {clientEdited.Id} updated", "Update completed"));
+                case 404:
+                    return _responseService.CreateResponse(ApiResponse<object>.NotFoundResponse($"Client with ID {clientEdited.Id} not found."));
+                default:
+                    return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to update Client"));
+            }
         }
     }
 }

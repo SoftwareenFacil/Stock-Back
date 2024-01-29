@@ -16,10 +16,10 @@ namespace Stock_Back.Controllers.UserApiControllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers(int id)
+        public async Task<IActionResult> GetUsers(int? id, string? name, string? email, DateTime? created, bool? vigency)
         {
             var userGetter = new GetUsers(_context);
-            return await userGetter.GetResponseUsers(id);
+            return await userGetter.GetBy(id, name, email, created, vigency);
         }
 
         [HttpPost]

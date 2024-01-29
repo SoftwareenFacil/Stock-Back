@@ -20,10 +20,7 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
                 response.Email = client.Email;
                 response.Phone = client.Phone;
                 response.TaxId = client.TaxId;
-                DateTime utcNow = DateTime.UtcNow;
-                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
-                DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, chileTimeZone);
-                response.Updated = DateTime.SpecifyKind(chileTime, DateTimeKind.Utc);
+                response.Updated = client.Updated;
 
                 if (await _context.SaveChangesAsync() > 0)
                     return true;

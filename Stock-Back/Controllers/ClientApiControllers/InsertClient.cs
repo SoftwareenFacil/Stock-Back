@@ -23,7 +23,7 @@ namespace Stock_Back.Controllers.ClientApiControllers
             var dataModified = await clientCreator.AddClient(client);
 
             if (dataModified > 0)
-                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with Email {client.Email} created succesfully","Create completed"));
+                return _responseService.CreateResponse(ApiResponse<object>.SuccessResponse($"Client with Email {client.Email} created succesfully", "Create completed"));
             else if (dataModified < 0)
                 return _responseService.CreateResponse(ApiResponse<object>.BadRequest(client, $"Client with Email {client.Email} already exists"));
             return _responseService.CreateResponse(ApiResponse<object>.ErrorResponse("Error trying to create a Client"));

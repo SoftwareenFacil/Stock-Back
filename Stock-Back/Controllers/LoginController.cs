@@ -9,7 +9,7 @@ namespace Stock_Back.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    
+
     public class LoginController : ControllerBase
     {
         private IManejoJwt manejoJwt;

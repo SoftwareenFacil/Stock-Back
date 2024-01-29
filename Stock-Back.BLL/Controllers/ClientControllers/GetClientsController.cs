@@ -12,39 +12,10 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
             _context = _dbContext;
         }
 
-        public async Task<dynamic?> GetClients(int id)
+        public async Task<List<ClientDTO>> GetClientBy(int? id, string? name, string? email, string? taxId, DateTime? created, bool? vigency)
         {
-            if (id == 0)
-                return await GetAllClients();
-            return await GetClientById(id);
-        }
-
-        public async Task<ClientDTO?> GetClientById(int id)
-        {
-            var clientGetter = new ClientGetById(_context);
-            var client = await clientGetter.GetClientById(id);
-            if (client == null)
-            {
-                return null;
-            }
-            else
-            {
-                return new ClientDTO()
-                {
-                    Id = client.Id,
-                    Name = client.Name,
-                    Email = client.Email,
-                    Phone = client.Phone,
-                    Address = client.Address
-                };
-            }
-        }
-
-        public async Task<List<ClientDTO>?> GetAllClients()
-        {
-            var clientGetter = new ClientGetAll(_context);
-            var clients = await clientGetter.GetAllClients();
-
+            var clientGetter = new ClientGetBy(_context);
+            var clients = await clientGetter.GetClientBy(id, name, email, taxId, created, vigency);
             if (clients.Count() > 0)
             {
                 List<ClientDTO> result = new List<ClientDTO>();
@@ -59,11 +30,9 @@ namespace Stock_Back.BLL.Controllers.ClientControllers
                 }));
                 return result;
             }
-            else
-            {
-                return null;
-            }
 
+            return new List<ClientDTO>();
         }
+
     }
 }

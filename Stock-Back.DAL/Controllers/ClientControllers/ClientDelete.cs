@@ -15,10 +15,15 @@ namespace Stock_Back.DAL.Controllers.ClientControllers
         public async Task<bool> DeleteClient(int id)
         {
             var client = await _context.Clients.Where(clientAux => clientAux.Id.Equals(id)).FirstOrDefaultAsync();
-            _context.Clients.Remove(client);
-            if (await _context.SaveChangesAsync() > 0) { 
-                return true;
+            if (client != null)
+            {
+                _context.Clients.Remove(client);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return true;
+                }
             }
+
             return false;
         }
     }

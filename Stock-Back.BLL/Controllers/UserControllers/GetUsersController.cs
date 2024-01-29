@@ -12,40 +12,11 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             _context = _dbContext;
         }
 
-        public async Task<dynamic?> GetUsers(int id)
+        public async Task<List<UserDTO>> GetUsersBy(int? id, string? name, string? email, DateTime? created, bool? vigency)
         {
-            if(id == 0)
-                return await GetAllUsers();
-            return await GetUserById(id);
-        }
-
-        public async Task<UserDTO?> GetUserById(int id)
-        {
-            var userGetter = new UserGetById(_context);
-            var user = await userGetter.GetUserById(id);
-            if(user == null)
-            {
-                return null;
-            }
-            else
-            {
-                return new UserDTO()
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Phone = user.Phone,
-                    SuperAdmin = user.SuperAdmin
-                };
-            }
-        }
-
-        public async Task<List<UserDTO>?> GetAllUsers()
-        {
-            var userGetter = new UserGetAll(_context);
-            var users = await userGetter.GetAllUsers();
-            
-            if(users.Count() > 0)
+            var userGetter = new UserGetBy(_context);
+            var users = await userGetter.GetUserBy(id, name, email, created, vigency);
+            if (users.Count() > 0)
             {
                 List<UserDTO> result = new List<UserDTO>();
                 users.ForEach(row => result.Add(new UserDTO()
@@ -54,16 +25,12 @@ namespace Stock_Back.BLL.Controllers.UserControllers
                     Name = row.Name,
                     Email = row.Email,
                     Phone = row.Phone,
+                    Address = row.Address,
                     SuperAdmin = row.SuperAdmin
                 }));
                 return result;
             }
-            else
-            {
-                return null;
-            }
-            
+            return new List<UserDTO>();
         }
-
     }
 }

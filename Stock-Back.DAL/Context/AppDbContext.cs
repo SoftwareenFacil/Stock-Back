@@ -19,11 +19,14 @@ namespace Stock_Back.DAL.Context
             var adminUser = new User
             {
                 Id = 1,
+                Name = "admin",
                 Email = "admin@admin.cl",
                 Password = HashPassword("admin1234"),
+                Phone = 0,
                 SuperAdmin = true,
                 Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow
+                Updated = DateTime.UtcNow,
+                Vigency = true
             };
 
             modelBuilder.Entity<User>().HasData(adminUser);
