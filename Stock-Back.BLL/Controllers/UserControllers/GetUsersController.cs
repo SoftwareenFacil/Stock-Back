@@ -18,16 +18,24 @@ namespace Stock_Back.BLL.Controllers.UserControllers
             var users = await userGetter.GetUserBy(id, name, email, created, vigency);
             if (users.Count() > 0)
             {
+                TimeZoneInfo chileTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific SA Standard Time");
                 List<UserDTO> result = new List<UserDTO>();
-                users.ForEach(row => result.Add(new UserDTO()
+                foreach (var row in users)
                 {
-                    Id = row.Id,
-                    Name = row.Name,
-                    Email = row.Email,
-                    Phone = row.Phone,
-                    Address = row.Address,
-                    SuperAdmin = row.SuperAdmin
-                }));
+                    DateTime chileTime = TimeZoneInfo.ConvertTimeFromUtc(row.Created, chileTimeZone);
+                    result.Add(new UserDTO()
+                    {
+                        Id = row.Id,
+                        Name = row.Name,
+                        Email = row.Email,
+                        Phone = row.Phone,
+                        Address = row.Address,
+                        SuperAdmin = row.SuperAdmin,
+                        Created = chileTime,
+                        Vigency = row.Vigency
+                    });
+                }
+                
                 return result;
             }
             return new List<UserDTO>();

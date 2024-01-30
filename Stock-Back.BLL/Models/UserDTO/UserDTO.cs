@@ -8,5 +8,7 @@
         public int Phone { get; set; }
         public string Address { get; set; }
         public bool SuperAdmin { get; set; }
+        public DateTime Created { get; set; }
+        public bool Vigency { get; set; }
     }
 }
