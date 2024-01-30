@@ -7,8 +7,18 @@ on:
     branches: [ "dev" ]
 
 jobs:
+  edit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: microsoft/variable-substitution@v1 
+        with:
+          files: 'Stock-Back/appsettings.json'
+        env:
+          ConnectionStrings: "Host=host.docker.internal; Database=legalcont; Username=postgres; Password=root"
+            
   build:
     runs-on: ubuntu-latest
+    needs: edit
     env: 
       IMAGE_NAME: backend-app
 
