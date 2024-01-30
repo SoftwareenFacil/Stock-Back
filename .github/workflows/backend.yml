@@ -70,5 +70,6 @@ jobs:
             dropdb -U postgres legalcont
             createdb -U postgres legalcont
             psql -U postgres -d legalcont -f ./script/script.sql 
+            systemctl restart postgresql
             echo "DB restored"
   
