@@ -9,6 +9,8 @@ on:
 jobs:
   edit:
     runs-on: ubuntu-latest
+    env:
+      CONNECTION_STRING: '"WebApiDatabase": "Host=host.docker.internal; Database=legalcont; Username=postgres; Password=root"'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -17,7 +19,7 @@ jobs:
         with:
           files: 'Stock-Back/appsettings.json'
         env:
-          ConnectionStrings: ${{ secrets.CONNECTION_STRING }}
+          ConnectionStrings: ${{ env.CONNECTION_STRING }}
             
   build:
     runs-on: ubuntu-latest
