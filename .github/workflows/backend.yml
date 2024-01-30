@@ -17,7 +17,7 @@ jobs:
         with:
           files: 'Stock-Back/appsettings.json'
         env:
-          ConnectionStrings: "Host=host.docker.internal; Database=legalcont; Username=postgres; Password=root"
+          ConnectionStrings: ${{ secrets.CONNECTION_STRING }}
             
   build:
     runs-on: ubuntu-latest
