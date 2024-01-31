@@ -29,7 +29,7 @@ namespace Stock_Back
                 options.AddPolicy("MyAllowSpecificOrigins",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000")
+                    builder.WithOrigins("http://localhost:3000", "http://64.23.144.63")
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });
