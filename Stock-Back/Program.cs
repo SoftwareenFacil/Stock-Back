@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Stock_Back.BLL.Controllers.JwtControllers;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace Stock_Back
 {
@@ -49,6 +51,7 @@ namespace Stock_Back
                     };
                 });
             builder.Services.AddScoped<IManejoJwt, ManejoJwt>();
+            builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             var app = builder.Build();
 
