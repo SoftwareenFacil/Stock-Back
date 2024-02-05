@@ -26,14 +26,15 @@ namespace Stock_Back
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("MyAllowSpecificOrigins",
+                options.AddPolicy("MyAllowAllOrigins",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000", "http://64.23.144.63")
+                    builder.AllowAnyOrigin() 
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });
             });
+
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -56,11 +57,12 @@ namespace Stock_Back
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                app.UseCors("MyAllowSpecificOrigins");
+                
             }
+            app.UseCors("MyAllowSpecificOrigins");
             app.UseExceptionHandler("/Error");
             app.UseHttpsRedirection();
-
+            
             app.UseAuthentication();
 
             app.UseAuthorization();
