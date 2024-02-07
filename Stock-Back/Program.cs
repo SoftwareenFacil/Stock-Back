@@ -56,8 +56,7 @@ namespace Stock_Back
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
-                
+                app.UseSwaggerUI();   
             }
             app.UseCors("MyAllowSpecificOrigins");
             app.UseExceptionHandler("/Error");
