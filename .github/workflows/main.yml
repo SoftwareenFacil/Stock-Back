@@ -10,8 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env: 
-      IMAGE_NAME: eic-backend
-      FOLDER_NAME: EIC_Back
+      IMAGE_NAME: <insertNameImage>
+      FOLDER_NAME: Stock_Back
       DB_NAME: defaultdb
     steps:
       - name: Checkout Repository
