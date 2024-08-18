@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  backend:
+    image: softwareenfacil/backend
+    container_name: backend
+    #networks:
+    #  main-network:
+    #    ipv4_address: 172.28.0.10
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+#networks:
+#  main-network:
+#    external: true
+
