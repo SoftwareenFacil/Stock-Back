@@ -4,6 +4,7 @@ using EIC_Back.UserJwt;
 using EIC_Back.BLL.Controllers.JwtControllers;
 using EIC_Back.DAL.Context;
 using EIC_Back.BLL.Services;
+using Newtonsoft.Json.Linq;
 
 namespace EIC_Back.Controllers
 {
@@ -25,11 +26,29 @@ namespace EIC_Back.Controllers
                 return BadRequest(ResponseHandler.GetAppResponse(type, "Invalid Credentials."));
             }
             var loger = new AuthService(_context);
-            var token = await loger.Authenticate(_manejoJwt, credentials);
+            var (token,refreshToken) = await loger.Authenticate(_manejoJwt, credentials);
             if (token != null)
             {
                 type = ResponseType.Success;
-                return Ok(ResponseHandler.GetAppResponse(type, token));
+                return Ok(ResponseHandler.GetAppResponse(type, new { token, refreshToken }));
+
+            }
+            return Unauthorized(ResponseHandler.GetAppResponse(type, "Unauthorized Credentials"));
+        }
+
+        public async Task<IActionResult> RefreshToken(string RefreshToken)
+        {
+            ResponseType type = ResponseType.Failure;
+            if (string.IsNullOrWhiteSpace(RefreshToken))
+            {
+                return BadRequest(ResponseHandler.GetAppResponse(type, "Please Provide Token"));
+            }
+            var loger = new AuthService(_context);
+            var (token, refreshToken) = await loger.Refresh(_manejoJwt, RefreshToken);
+            if (token != null)
+            {
+                type = ResponseType.Success;
+                return Ok(ResponseHandler.GetAppResponse(type, new { token, refreshToken }));
 
             }
             return Unauthorized(ResponseHandler.GetAppResponse(type, "Unauthorized Credentials"));

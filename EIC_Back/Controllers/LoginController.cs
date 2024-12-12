@@ -28,5 +28,13 @@ namespace EIC_Back.Controllers
             var userAuthenticator = new AuthUser(manejoJwt, _context);
             return await userAuthenticator.Authenticate(credentials);
         }
+
+        [AllowAnonymous]
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] string RefreshToken)
+        {
+            var userAuthenticator = new AuthUser(manejoJwt, _context);
+            return await userAuthenticator.RefreshToken(RefreshToken);
+        }
     }
 }

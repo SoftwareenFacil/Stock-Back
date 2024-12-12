@@ -66,5 +66,19 @@ namespace EIC_Back.DAL.Repository
             }
             return false;
         }
+        public async Task<User> GetUserByRefreshToken(string token, DateTime date)
+        {
+            var user = await _context.Users.Where(u => u.RefreshTokenDate <= date && u.RefreshToken == token).FirstOrDefaultAsync();
+            return user;
+        }
+
+        public async Task<bool> SaveRefresh(string token, User user)
+        {
+            user.RefreshToken = token;
+            user.RefreshTokenDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+
     }
 }

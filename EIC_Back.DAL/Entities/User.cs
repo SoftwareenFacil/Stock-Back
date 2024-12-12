@@ -24,5 +24,9 @@ namespace EIC_Back.DAL.Models
         public bool SuperAdmin { get; set; }
         public bool Vigency { get; set; }
         public string? Job { get; set; }
+
+        public string? RefreshToken { get; set; }
+        
+        public DateTime? RefreshTokenDate { get; set; }
     }
 }
